@@ -1,0 +1,29 @@
+{
+    "name": "Bootstrap Helpers",
+    "description": "Some Plugins to help working with bootstrap grids",
+    "author": "Konstantin Demblin",
+    "authorEmail": "Konstantin.Demblin@gmail.com",
+    "homepage": "https://www.google.com",
+    "version": "0.0.1",
+    "identifier": "at.demblin.sketch.bootstrap-helpers",
+    "appcast": "appcast.xml",
+    "compatibleVersion": "4.5",
+    "bundleVersion": 1,
+    "commands": [
+        {
+            "name" : "playground",
+            "identifier" : "check",
+            "shortcut" : "ctrl 1",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onPlayground"
+            }
+        }
+    ],
+  "menu": {
+    "title" : "Bootstrap Helpers",
+    "items": [
+        "check"
+    ]
+  }
+}
