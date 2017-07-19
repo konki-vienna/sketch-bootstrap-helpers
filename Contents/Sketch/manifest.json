@@ -36,6 +36,15 @@
             "handlers" : {
                 "run" : "onIncreaseByOne"
             }
+        },
+        {
+            "name" : "Decrease by 1 column",
+            "identifier" : "decreaseByOne",
+            "shortcut" : "ctrl -",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onDecreaseByOne"
+            }
         }
     ],
   "menu": {
@@ -44,7 +53,8 @@
         "playground",
         "-",
         "setGrid",
-        "increaseByOne"
+        "increaseByOne",
+        "decreaseByOne"
     ]
   }
 }

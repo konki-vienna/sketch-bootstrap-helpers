@@ -4,7 +4,9 @@ var selection;
 var selectedElement;
 var context;
 var bootstrapSize;
+var gridTotalWidth;
 var gridColumnWidth;
+var gridGutter = 15;
 var artboard;
 var artboardName;
 var artboardWidth;
@@ -12,6 +14,7 @@ var artboardIndex;
 
 function onPlayground(context) {
     checkArtboardSettings(context);
+    selectedElement.frame().width = 10;
 }
 
 /*----------------------------------*/
@@ -72,18 +75,21 @@ function checkArtboardSettings(context) {
 
             if (artboardWidth > 0 && artboardWidth <= 575) {
                 bootstrapSize = "xs";
+                gridTotalWidth = artboardWidth;
             } else if (artboardWidth >= 576 && artboardWidth <= 767) {
                 bootstrapSize = "sm";
+                gridTotalWidth = 540;
             } else if (artboardWidth >= 768 && artboardWidth <= 991) {
                 bootstrapSize = "md";
+                gridTotalWidth = 720;
             } else if (artboardWidth >= 992 && artboardWidth <= 1199) {
                 bootstrapSize = "lg";
+                gridTotalWidth = 960;
             } else if (artboardWidth >= 1200) {
                 bootstrapSize = "xl";
-            } else {
-                bootstrapSize = "unknown";
+                gridTotalWidth = 1170;
             }
-            gridColumnWidth = getColumnWidth();
+            gridColumnWidth = getColumnWidth(); {}
             displayMessageToUser(context, "✅ bootstrapSize: " + bootstrapSize + "; columnWidth: " + gridColumnWidth + " ✅");
 
             return true;
@@ -91,38 +97,97 @@ function checkArtboardSettings(context) {
     }
 }
 
+function onDecreaseByOne(context) {
+    if (checkArtboardSettings(context)) {
+        if (selectedElement.frame().width() > (gridColumnWidth * 11) + (gridGutter * 20)) {
+            selectedElement.frame().width = (gridColumnWidth * 11) + (gridGutter * 20);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() <= (gridColumnWidth * 11) + (gridGutter * 20)) {
+            selectedElement.frame().width = (gridColumnWidth * 10) + (gridGutter * 18);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() <= (gridColumnWidth * 10) + (gridGutter * 18)) {
+            selectedElement.frame().width = (gridColumnWidth * 9) + (gridGutter * 16);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() <= (gridColumnWidth * 9) + (gridGutter * 16)) {
+            selectedElement.frame().width = (gridColumnWidth * 8) + (gridGutter * 14);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() <= (gridColumnWidth * 8) + (gridGutter * 14)) {
+            selectedElement.frame().width = (gridColumnWidth * 7) + (gridGutter * 12);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() <= (gridColumnWidth * 7) + (gridGutter * 12)) {
+            selectedElement.frame().width = (gridColumnWidth * 6) + (gridGutter * 10);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 10)) {
+            selectedElement.frame().width = (gridColumnWidth * 5) + (gridGutter * 8);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() <= (gridColumnWidth * 5) + (gridGutter * 8)) {
+            selectedElement.frame().width = (gridColumnWidth * 4) + (gridGutter * 6);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() <= (gridColumnWidth * 4) + (gridGutter * 6)) {
+            selectedElement.frame().width = (gridColumnWidth * 3) + (gridGutter * 4);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() <= (gridColumnWidth * 3) + (gridGutter * 4)) {
+            selectedElement.frame().width = (gridColumnWidth * 2) + (gridGutter * 2);
+        } else if (selectedElement.frame().width() > gridColumnWidth) {
+            selectedElement.frame().width = (gridColumnWidth * 1);
+        }
+    }
+}
+
 function onIncreaseByOne(context) {
     if (checkArtboardSettings(context)) {
-        var temp = getElementsCurrentColumnWidth();
-        displayMessageToUser(context, "✅ "+ temp +" ✅");
+
+        if (selectedElement.frame().width() < gridColumnWidth) {
+            selectedElement.frame().width = gridColumnWidth;
+        } else if (selectedElement.frame().width() >= gridColumnWidth && selectedElement.frame().width() < (gridColumnWidth * 2) + (gridGutter * 2)) {
+            selectedElement.frame().width = (gridColumnWidth * 2) + (gridGutter * 2);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() < (gridColumnWidth * 3) + (gridGutter * 4)) {
+            selectedElement.frame().width = (gridColumnWidth * 3) + (gridGutter * 4);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() < (gridColumnWidth * 4) + (gridGutter * 6)) {
+            selectedElement.frame().width = (gridColumnWidth * 4) + (gridGutter * 6);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() < (gridColumnWidth * 5) + (gridGutter * 8)) {
+            selectedElement.frame().width = (gridColumnWidth * 5) + (gridGutter * 8);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() < (gridColumnWidth * 6) + (gridGutter * 10)) {
+            selectedElement.frame().width = (gridColumnWidth * 6) + (gridGutter * 10);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() < (gridColumnWidth * 7) + (gridGutter * 12)) {
+            selectedElement.frame().width = (gridColumnWidth * 7) + (gridGutter * 12);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() < (gridColumnWidth * 8) + (gridGutter * 14)) {
+            selectedElement.frame().width = (gridColumnWidth * 8) + (gridGutter * 14);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() < (gridColumnWidth * 9) + (gridGutter * 16)) {
+            selectedElement.frame().width = (gridColumnWidth * 9) + (gridGutter * 16);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() < (gridColumnWidth * 10) + (gridGutter * 18)) {
+            selectedElement.frame().width = (gridColumnWidth * 10) + (gridGutter * 18);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() < (gridColumnWidth * 11) + (gridGutter * 20)) {
+            selectedElement.frame().width = (gridColumnWidth * 11) + (gridGutter * 20);
+        } else if (selectedElement.frame().width() >= (gridColumnWidth * 11) + (gridGutter * 20) && selectedElement.frame().width() < (gridColumnWidth * 12) + (gridGutter * 22)) {
+            selectedElement.frame().width = (gridColumnWidth * 12) + (gridGutter * 22);
+        } else if (selectedElement.frame().width() > (gridColumnWidth * 12) + (gridGutter * 22)) {
+            selectedElement.frame().width = (gridColumnWidth * 12) + (gridGutter * 22);
+        }
+
+        var tempColumnWidth = getElementsCurrentColumnWidth();
+        displayMessageToUser(context, "✅ " + tempColumnWidth + ", " + selectedElement.frame().width() + " ✅");
     }
 }
 
 function getElementsCurrentColumnWidth() {
-    if (selectedElement.frame().width() <= gridColumnWidth) {
+    if (selectedElement.frame().width() > 0 && selectedElement.frame().width() <= gridColumnWidth) {
         return 1;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 2) {
+    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth * 2) + (gridGutter * 2)) {
         return 2;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 3) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() <= (gridColumnWidth * 3) + (gridGutter * 4)) {
         return 3;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 4) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() <= (gridColumnWidth * 4) + (gridGutter * 6)) {
         return 4;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 5) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() <= (gridColumnWidth * 5) + (gridGutter * 8)) {
         return 5;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 6) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 10)) {
         return 6;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 7) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() <= (gridColumnWidth * 8) + (gridGutter * 12)) {
         return 7;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 8) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() <= (gridColumnWidth * 9) + (gridGutter * 14)) {
         return 8;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 9) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() <= (gridColumnWidth * 10) + (gridGutter * 16)) {
         return 9;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 10) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() <= (gridColumnWidth * 11) + (gridGutter * 18)) {
         return 10;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth + 15) * 11) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() <= (gridColumnWidth * 12) + (gridGutter * 20)) {
         return 11;
-    } else if (selectedElement.frame().width() > (gridColumnWidth + 15) * 12) {
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 11) + (gridGutter * 20) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 22)) {
         return 12;
+    } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 22)) {
+        return 999;
     }
 }
 
@@ -132,9 +197,9 @@ function getElementsCurrentColumnWidth() {
 function getColumnWidth() {
     var temp;
     if (bootstrapSize == "xs") {
-        temp = artboardWidth - (2 * 15);
+        temp = gridTotalWidth - (2 * 15);
     } else {
-        temp = (artboardWidth - (12 * 30)) / 12;
+        temp = (gridTotalWidth - (12 * 30)) / 12;
     }
     return temp;
 }
