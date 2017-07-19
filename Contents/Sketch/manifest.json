@@ -5,25 +5,36 @@
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://www.google.com",
     "version": "0.0.1",
-    "identifier": "at.demblin.sketch.bootstrap-helpers",
+    "identifier": "at.demblin.sketch-bootstrap-helpers",
     "appcast": "appcast.xml",
     "compatibleVersion": "4.5",
     "bundleVersion": 1,
     "commands": [
         {
-            "name" : "playground",
-            "identifier" : "check",
+            "name" : "Playground",
+            "identifier" : "playground",
             "shortcut" : "ctrl 1",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onPlayground"
+            }
+        },
+        {
+            "name" : "Set bootstrap grid width",
+            "identifier" : "setGrid",
+            "shortcut" : "ctrl 0",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onSetBootstrapGrid"
             }
         }
     ],
   "menu": {
     "title" : "Bootstrap Helpers",
     "items": [
-        "check"
+        "playground",
+        "-",
+        "setGrid"
     ]
   }
 }
