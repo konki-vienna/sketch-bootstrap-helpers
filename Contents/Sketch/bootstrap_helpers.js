@@ -18,6 +18,9 @@ function onSetBootstrapGrid(context) {
     if (bootstrapSize == "xs") {
         selectedElement.frame().width = artboard.frame().width();
         selectedElement.frame().x = 0;
+    } else if (bootstrapSize == "sm") {
+        selectedElement.frame().width = 540;
+        selectedElement.frame().x = (artboard.frame().width() - selectedElement.frame().width()) * 0.5;
     } else if (bootstrapSize == "md") {
         selectedElement.frame().width = 720;
         selectedElement.frame().x = (artboard.frame().width() - selectedElement.frame().width()) * 0.5;
