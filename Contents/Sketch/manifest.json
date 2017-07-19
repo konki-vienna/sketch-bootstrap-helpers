@@ -1,6 +1,6 @@
 {
     "name": "Bootstrap Helpers",
-    "description": "Some Plugins to help working with bootstrap grids",
+    "description": "Some tools to help working with bootstrap grids",
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://www.google.com",
@@ -27,6 +27,15 @@
             "handlers" : {
                 "run" : "onSetBootstrapGrid"
             }
+        },
+        {
+            "name" : "Increase by 1 column",
+            "identifier" : "increaseByOne",
+            "shortcut" : "ctrl +",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onIncreaseByOne"
+            }
         }
     ],
   "menu": {
@@ -34,7 +43,8 @@
     "items": [
         "playground",
         "-",
-        "setGrid"
+        "setGrid",
+        "increaseByOne"
     ]
   }
 }
