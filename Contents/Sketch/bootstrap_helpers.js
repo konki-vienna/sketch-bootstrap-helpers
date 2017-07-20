@@ -156,12 +156,12 @@ function onIncreaseByOne(context) {
             selectedElement.frame().width = (gridColumnWidth * 12) + (gridGutter * 22);
         }
 
-        var tempColumnWidth = getElementsCurrentColumnWidth();
-        displayMessageToUser(context, "✅ " + tempColumnWidth + ", " + selectedElement.frame().width() + " ✅");
+        //var tempColumnWidth = getElementsCurrentColumnWidth();
+        displayMessageToUser(context, "✅ " + selectedElement.frame().width() + " ✅");
     }
 }
 
-function getElementsCurrentColumnWidth() {
+/*function getElementsCurrentColumnWidth() {
     if (selectedElement.frame().width() > 0 && selectedElement.frame().width() <= gridColumnWidth) {
         return 1;
     } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth * 2) + (gridGutter * 2)) {
@@ -189,7 +189,7 @@ function getElementsCurrentColumnWidth() {
     } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 22)) {
         return 999;
     }
-}
+}*/
 
 /*----------------------------------*/
 //Get column width
