@@ -1,29 +1,80 @@
 {
     "name": "Bootstrap Helpers",
-    "description": "Some Plugins to help working with bootstrap grids",
+    "description": "Some tools to help working with bootstrap grids",
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://www.google.com",
     "version": "0.0.1",
-    "identifier": "at.demblin.sketch.bootstrap-helpers",
+    "identifier": "at.demblin.sketch-bootstrap-helpers",
     "appcast": "appcast.xml",
     "compatibleVersion": "4.5",
     "bundleVersion": 1,
     "commands": [
         {
-            "name" : "playground",
-            "identifier" : "check",
+            "name" : "Playground",
+            "identifier" : "playground",
             "shortcut" : "ctrl 1",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onPlayground"
+            }
+        },
+        {
+            "name" : "Set bootstrap grid width",
+            "identifier" : "setGrid",
+            "shortcut" : "cmd ctrl 0",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onSetBootstrapGrid"
+            }
+        },
+        {
+            "name" : "Increase by 1 column",
+            "identifier" : "increaseByOne",
+            "shortcut" : "cmd ctrl +",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onIncreaseByOne"
+            }
+        },
+        {
+            "name" : "Decrease by 1 column",
+            "identifier" : "decreaseByOne",
+            "shortcut" : "cmd ctrl -",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onDecreaseByOne"
+            }
+        },
+        {
+            "name" : "Move left by 1 column",
+            "identifier" : "moveLeftByOne",
+            "shortcut" : "cmd ctrl ←",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveLeftByOne"
+            }
+        },
+        {
+            "name" : "Move rigth by 1 column",
+            "identifier" : "moveRightByOne",
+            "shortcut" : "cmd ctrl →",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveRightByOne"
             }
         }
     ],
   "menu": {
     "title" : "Bootstrap Helpers",
     "items": [
-        "check"
+        "playground",
+        "-",
+        "setGrid",
+        "increaseByOne",
+        "decreaseByOne",
+        "moveLeftByOne",
+        "moveRightByOne"
     ]
   }
 }
