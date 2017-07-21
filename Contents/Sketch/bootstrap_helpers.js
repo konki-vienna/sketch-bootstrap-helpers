@@ -97,64 +97,47 @@ function checkArtboardSettings(context) {
     }
 }
 
+function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, myGridGutterWidth) {
+    if (shallBeIncreased) {
+        var index = 1;
+        var additionalSpace = (myGridGutterWidth * 2 * index) - (2 * myGridGutterWidth);
+        var possibleNewWidth = (myGridColumnWidth * index) + additionalSpace;
+
+        while (index <= 11 && myElementWidth >= possibleNewWidth) {
+            index++;
+            additionalSpace = (myGridGutterWidth * 2 * index) - (2 * myGridGutterWidth);
+            possibleNewWidth = (myGridColumnWidth * index) + additionalSpace;
+        }
+        return possibleNewWidth;
+    } else {
+        var index = 11;
+        var additionalSpace = (myGridGutterWidth * 2 * index) - (2 * myGridGutterWidth);
+        var possibleNewWidth = (myGridColumnWidth * index) + additionalSpace;
+
+        while (index > 1 && myElementWidth <= possibleNewWidth) {
+            index--;
+            additionalSpace = (myGridGutterWidth * 2 * index) - (2 * myGridGutterWidth);
+            possibleNewWidth = (myGridColumnWidth * index) + additionalSpace;
+        }
+        return possibleNewWidth;
+    }
+}
+
 function onDecreaseByOne(context) {
     if (checkArtboardSettings(context)) {
-        if (selectedElement.frame().width() > (gridColumnWidth * 11) + (gridGutter * 20)) {
-            selectedElement.frame().width = (gridColumnWidth * 11) + (gridGutter * 20);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() <= (gridColumnWidth * 11) + (gridGutter * 20)) {
-            selectedElement.frame().width = (gridColumnWidth * 10) + (gridGutter * 18);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() <= (gridColumnWidth * 10) + (gridGutter * 18)) {
-            selectedElement.frame().width = (gridColumnWidth * 9) + (gridGutter * 16);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() <= (gridColumnWidth * 9) + (gridGutter * 16)) {
-            selectedElement.frame().width = (gridColumnWidth * 8) + (gridGutter * 14);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() <= (gridColumnWidth * 8) + (gridGutter * 14)) {
-            selectedElement.frame().width = (gridColumnWidth * 7) + (gridGutter * 12);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() <= (gridColumnWidth * 7) + (gridGutter * 12)) {
-            selectedElement.frame().width = (gridColumnWidth * 6) + (gridGutter * 10);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 10)) {
-            selectedElement.frame().width = (gridColumnWidth * 5) + (gridGutter * 8);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() <= (gridColumnWidth * 5) + (gridGutter * 8)) {
-            selectedElement.frame().width = (gridColumnWidth * 4) + (gridGutter * 6);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() <= (gridColumnWidth * 4) + (gridGutter * 6)) {
-            selectedElement.frame().width = (gridColumnWidth * 3) + (gridGutter * 4);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() <= (gridColumnWidth * 3) + (gridGutter * 4)) {
-            selectedElement.frame().width = (gridColumnWidth * 2) + (gridGutter * 2);
-        } else if (selectedElement.frame().width() > gridColumnWidth) {
-            selectedElement.frame().width = (gridColumnWidth * 1);
-        }
+        
+        selectedElement.frame().width = findColumnWidth(false, selectedElement.frame().width(), gridColumnWidth, gridGutter)
+
+        //var tempColumnWidth = getElementsCurrentColumnWidth();
+        displayMessageToUser(context, "✅ " + selectedElement.frame().width() + " ✅");
     }
 }
 
 function onIncreaseByOne(context) {
+
     if (checkArtboardSettings(context)) {
 
-        if (selectedElement.frame().width() < gridColumnWidth) {
-            selectedElement.frame().width = gridColumnWidth;
-        } else if (selectedElement.frame().width() >= gridColumnWidth && selectedElement.frame().width() < (gridColumnWidth * 2) + (gridGutter * 2)) {
-            selectedElement.frame().width = (gridColumnWidth * 2) + (gridGutter * 2);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() < (gridColumnWidth * 3) + (gridGutter * 4)) {
-            selectedElement.frame().width = (gridColumnWidth * 3) + (gridGutter * 4);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() < (gridColumnWidth * 4) + (gridGutter * 6)) {
-            selectedElement.frame().width = (gridColumnWidth * 4) + (gridGutter * 6);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() < (gridColumnWidth * 5) + (gridGutter * 8)) {
-            selectedElement.frame().width = (gridColumnWidth * 5) + (gridGutter * 8);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() < (gridColumnWidth * 6) + (gridGutter * 10)) {
-            selectedElement.frame().width = (gridColumnWidth * 6) + (gridGutter * 10);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() < (gridColumnWidth * 7) + (gridGutter * 12)) {
-            selectedElement.frame().width = (gridColumnWidth * 7) + (gridGutter * 12);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() < (gridColumnWidth * 8) + (gridGutter * 14)) {
-            selectedElement.frame().width = (gridColumnWidth * 8) + (gridGutter * 14);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() < (gridColumnWidth * 9) + (gridGutter * 16)) {
-            selectedElement.frame().width = (gridColumnWidth * 9) + (gridGutter * 16);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() < (gridColumnWidth * 10) + (gridGutter * 18)) {
-            selectedElement.frame().width = (gridColumnWidth * 10) + (gridGutter * 18);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() < (gridColumnWidth * 11) + (gridGutter * 20)) {
-            selectedElement.frame().width = (gridColumnWidth * 11) + (gridGutter * 20);
-        } else if (selectedElement.frame().width() >= (gridColumnWidth * 11) + (gridGutter * 20) && selectedElement.frame().width() < (gridColumnWidth * 12) + (gridGutter * 22)) {
-            selectedElement.frame().width = (gridColumnWidth * 12) + (gridGutter * 22);
-        } else if (selectedElement.frame().width() > (gridColumnWidth * 12) + (gridGutter * 22)) {
-            selectedElement.frame().width = (gridColumnWidth * 12) + (gridGutter * 22);
-        }
+        selectedElement.frame().width = findColumnWidth(true, selectedElement.frame().width(), gridColumnWidth, gridGutter)
 
         //var tempColumnWidth = getElementsCurrentColumnWidth();
         displayMessageToUser(context, "✅ " + selectedElement.frame().width() + " ✅");
