@@ -1,7 +1,8 @@
 @import 'common.js'
-var doc;
+//var doc;
 var selection;
 var selectedElement;
+var selectedElement2;
 var context;
 var bootstrapSize;
 var gridTotalWidth;
@@ -12,13 +13,34 @@ var artboardName;
 var artboardWidth;
 var artboardIndex;
 
+var reference_obj = new Object();
+
 function onPlayground(context) {
-    checkArtboardSettings(context);
-    selectedElement.frame().width = 10;
+    //checkArtboardSettings(context);
+    //selectedElement.frame().width = 10;
+
+    onDefineReference(context);
+}
+
+function onDefineReference(context) {
+    selection = context.selection;
+    selectedElement = nil;
+
+    if ([selection count] == 0) {
+        displayMessageToUser(context, "❌ Please select an element. ❌");
+        return false;
+    } else {
+
+        selectedElement = [selection objectAtIndex: 0];
+        
+        reference_obj.name = selectedElement.name();
+    }
+
+    displayMessageToUser(context, "✅ Reference: " + reference_obj.name + " ✅");
 }
 
 /*----------------------------------*/
-//Sets the selected element (idealy the bootstrap grid icon) to full grid width
+//Sets the selected element (idealy the bootstrap grid symbol) to full grid width
 /*----------------------------------*/
 function onSetBootstrapGrid(context) {
     if (checkArtboardSettings(context)) {
@@ -56,9 +78,14 @@ function checkArtboardSettings(context) {
         return false;
     } else {
         context = context;
-        doc = NSDocumentController.sharedDocumentController().currentDocument();
+        //doc = NSDocumentController.sharedDocumentController().currentDocument();
 
         selectedElement = [selection objectAtIndex: 0];
+        if ([selection count] > 1) {
+            selectedElement2 = [selection objectAtIndex: 1];
+
+            log(selectedElement.frame().width() + ", " + selectedElement2.frame().width());
+        }
 
         if (selectedElement.class() == "MSArtboardGroup") {
             displayMessageToUser(context, "❌ Please select an element and not an artboard. ❌");
@@ -89,7 +116,7 @@ function checkArtboardSettings(context) {
                 bootstrapSize = "xl";
                 gridTotalWidth = 1170;
             }
-            gridColumnWidth = getColumnWidth(); {}
+            gridColumnWidth = getColumnWidth();
             displayMessageToUser(context, "✅ bootstrapSize: " + bootstrapSize + "; columnWidth: " + gridColumnWidth + " ✅");
 
             return true;
@@ -125,10 +152,9 @@ function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, my
 
 function onDecreaseByOne(context) {
     if (checkArtboardSettings(context)) {
-        
+
         selectedElement.frame().width = findColumnWidth(false, selectedElement.frame().width(), gridColumnWidth, gridGutter)
 
-        //var tempColumnWidth = getElementsCurrentColumnWidth();
         displayMessageToUser(context, "✅ " + selectedElement.frame().width() + " ✅");
     }
 }
@@ -139,40 +165,25 @@ function onIncreaseByOne(context) {
 
         selectedElement.frame().width = findColumnWidth(true, selectedElement.frame().width(), gridColumnWidth, gridGutter)
 
-        //var tempColumnWidth = getElementsCurrentColumnWidth();
         displayMessageToUser(context, "✅ " + selectedElement.frame().width() + " ✅");
     }
 }
 
-/*function getElementsCurrentColumnWidth() {
-    if (selectedElement.frame().width() > 0 && selectedElement.frame().width() <= gridColumnWidth) {
-        return 1;
-    } else if (selectedElement.frame().width() > gridColumnWidth && selectedElement.frame().width() <= (gridColumnWidth * 2) + (gridGutter * 2)) {
-        return 2;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 2) + (gridGutter * 2) && selectedElement.frame().width() <= (gridColumnWidth * 3) + (gridGutter * 4)) {
-        return 3;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 3) + (gridGutter * 4) && selectedElement.frame().width() <= (gridColumnWidth * 4) + (gridGutter * 6)) {
-        return 4;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 4) + (gridGutter * 6) && selectedElement.frame().width() <= (gridColumnWidth * 5) + (gridGutter * 8)) {
-        return 5;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 5) + (gridGutter * 8) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 10)) {
-        return 6;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 10) && selectedElement.frame().width() <= (gridColumnWidth * 8) + (gridGutter * 12)) {
-        return 7;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 7) + (gridGutter * 12) && selectedElement.frame().width() <= (gridColumnWidth * 9) + (gridGutter * 14)) {
-        return 8;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 8) + (gridGutter * 14) && selectedElement.frame().width() <= (gridColumnWidth * 10) + (gridGutter * 16)) {
-        return 9;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 9) + (gridGutter * 16) && selectedElement.frame().width() <= (gridColumnWidth * 11) + (gridGutter * 18)) {
-        return 10;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 10) + (gridGutter * 18) && selectedElement.frame().width() <= (gridColumnWidth * 12) + (gridGutter * 20)) {
-        return 11;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 11) + (gridGutter * 20) && selectedElement.frame().width() <= (gridColumnWidth * 6) + (gridGutter * 22)) {
-        return 12;
-    } else if (selectedElement.frame().width() > (gridColumnWidth * 6) + (gridGutter * 22)) {
-        return 999;
+function onMoveLeftByOne(context) {
+    if (checkArtboardSettings(context)) {
+        displayMessageToUser(context, "✅ onMoveLeftByOne " + selectedElement.frame().x() + " ✅");
+
+        selectedElement.frame().x = selectedElement.frame().x() - (gridColumnWidth + gridGutter * 2);
     }
-}*/
+}
+
+function onMoveRightByOne(context) {
+    if (checkArtboardSettings(context)) {
+        displayMessageToUser(context, "✅ onMoveRightByOne " + selectedElement.frame().x() + " ✅");
+
+        selectedElement.frame().x = selectedElement.frame().x() + (gridColumnWidth + gridGutter * 2);
+    }
+}
 
 /*----------------------------------*/
 //Get column width

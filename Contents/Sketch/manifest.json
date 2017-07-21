@@ -22,7 +22,7 @@
         {
             "name" : "Set bootstrap grid width",
             "identifier" : "setGrid",
-            "shortcut" : "ctrl 0",
+            "shortcut" : "cmd ctrl 0",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onSetBootstrapGrid"
@@ -31,7 +31,7 @@
         {
             "name" : "Increase by 1 column",
             "identifier" : "increaseByOne",
-            "shortcut" : "ctrl +",
+            "shortcut" : "cmd ctrl +",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onIncreaseByOne"
@@ -40,10 +40,28 @@
         {
             "name" : "Decrease by 1 column",
             "identifier" : "decreaseByOne",
-            "shortcut" : "ctrl -",
+            "shortcut" : "cmd ctrl -",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDecreaseByOne"
+            }
+        },
+        {
+            "name" : "Move left by 1 column",
+            "identifier" : "moveLeftByOne",
+            "shortcut" : "cmd ctrl ←",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveLeftByOne"
+            }
+        },
+        {
+            "name" : "Move rigth by 1 column",
+            "identifier" : "moveRightByOne",
+            "shortcut" : "cmd ctrl →",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveRightByOne"
             }
         }
     ],
@@ -54,7 +72,9 @@
         "-",
         "setGrid",
         "increaseByOne",
-        "decreaseByOne"
+        "decreaseByOne",
+        "moveLeftByOne",
+        "moveRightByOne"
     ]
   }
 }
