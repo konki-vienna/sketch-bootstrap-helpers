@@ -16,13 +16,16 @@
             "shortcut" : "ctrl 1",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
-                "run" : "onPlayground"
+                "run" : "onPlayground",
+                "actions": {
+                    "LayersMoved.finish": "LayersMoved",
+                }
             }
         },
         {
             "name" : "Set bootstrap grid width",
             "identifier" : "setGrid",
-            "shortcut" : "cmd ctrl 0",
+            "shortcut" : "ctrl shift 0",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onSetBootstrapGrid"
@@ -31,7 +34,7 @@
         {
             "name" : "Increase by 1 column",
             "identifier" : "increaseByOne",
-            "shortcut" : "cmd ctrl +",
+            "shortcut" : "ctrl shift +",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onIncreaseByOne"
@@ -40,7 +43,7 @@
         {
             "name" : "Decrease by 1 column",
             "identifier" : "decreaseByOne",
-            "shortcut" : "cmd ctrl -",
+            "shortcut" : "ctrl shift -",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDecreaseByOne"
@@ -49,7 +52,7 @@
         {
             "name" : "Move left by 1 column",
             "identifier" : "moveLeftByOne",
-            "shortcut" : "cmd ctrl ←",
+            "shortcut" : "ctrl shift ←",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onMoveLeftByOne"
@@ -58,7 +61,7 @@
         {
             "name" : "Move rigth by 1 column",
             "identifier" : "moveRightByOne",
-            "shortcut" : "cmd ctrl →",
+            "shortcut" : "ctrl shift →",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onMoveRightByOne"
