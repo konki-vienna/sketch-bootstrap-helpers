@@ -25,94 +25,101 @@ function onPlayground(context) {
         }
         displayMessageToUser(context, "✅ Alpha Value: " + NSApplication.sharedApplication().mainWindow().alphaValue() + " ✅");
     };*/
-    drawBootstrapGrid(context);
+    drawBootstrapGrid(context, true);
 }
 
-function drawBootstrapGrid(context) {
+function drawBootstrapGrid(context, myHasOuterGutter) {
     var selection = context.selection;
 
     if ([selection count] == 0 || [selection count] >= 2) {
         displayMessageToUser(context, "❌ Please select a single element. ❌");
     } else {
         if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
-            displayMessageToUser(context, "The width of your selected artboard is: " + [selection objectAtIndex: 0].frame().width() + "px.");
-
             master = new Object();
             master.element = [selection objectAtIndex: 0];
             master.name = master.element.name();
             master.width = master.element.frame().width();
-
-            setGridSettings(master, [selection count]);
-            
-            
-            //CREATE GRID
-            layerGroup_array = new Array();
-            doc = NSDocumentController.sharedDocumentController().currentDocument();
-            
-            var rectShape;
-            
-            for (var i=0; i<12; i++) {
-                rectShape = MSRectangleShape.alloc().init();
-                rectShape.frame = MSRect.rectWithRect(NSMakeRect(i*(gridColumnWidth + 2 * gridGutter), 0, gridColumnWidth, 200));
-                //rectShape.cornerRadiusFloat = 5;
-                var shapeGroup=MSShapeGroup.shapeWithPath(rectShape);
-                var fill = shapeGroup.style().addStylePartOfType(0);
-                myFillColor = "#FF33CC";
-                fill.color = MSImmutableColor.colorWithSVGString(myFillColor);
-
-                shapeGroup.frame().constrainProportions = false; // Set to `true` if you want shape to be constrained.
-                shapeGroup.setName("column_" + (i+1));
-
-                //Add to layer group
-                layerGroup_array.push(shapeGroup);
-
-                // Add created shape group to the current page.
-                doc.currentPage().currentArtboard().addLayers([shapeGroup]);
+            if (myHasOuterGutter) {
+                setGridSettings(master, 1);
+            } else {
+                setGridSettings(master, 2);
             }
             
             
-
+            //log("bootstrapSize: " + bootstrapSize + ", gridTotalWidth: " + gridTotalWidth + ", gridColumnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter);
+            
+            drawGrid(master, true, myHasOuterGutter);
         } else {
-            displayMessageToUser(context, "The width of your selection is: " + [selection objectAtIndex: 0].frame().width() + "px.");
-            
             master = new Object();
             master.element = [selection objectAtIndex: 0];
             master.name = master.element.name();
             master.width = master.element.frame().width();
-            
-            gridTotalWidth = master.width;
-            gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2)))/12;
-            
-            log("gridTotalWidth: " + gridTotalWidth + ", gridColumnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter);
-            
-            
-            //CREATE GRID
-            layerGroup_array = new Array();
-            doc = NSDocumentController.sharedDocumentController().currentDocument();
-            
-            var rectShape;
-            
-            for (var i=0; i<12; i++) {
-                rectShape = MSRectangleShape.alloc().init();
-                rectShape.frame = MSRect.rectWithRect(NSMakeRect(master.element.frame().x() + i*(gridColumnWidth + 2 * gridGutter), master.element.frame().y(), gridColumnWidth, 200));
-                //rectShape.cornerRadiusFloat = 5;
-                var shapeGroup=MSShapeGroup.shapeWithPath(rectShape);
-                var fill = shapeGroup.style().addStylePartOfType(0);
-                myFillColor = "#FF33CC";
-                fill.color = MSImmutableColor.colorWithSVGString(myFillColor);
-
-                shapeGroup.frame().constrainProportions = false; // Set to `true` if you want shape to be constrained.
-                shapeGroup.setName("column_" + (i+1));
-
-                //Add to layer group
-                layerGroup_array.push(shapeGroup);
-
-                // Add created shape group to the current page.
-                doc.currentPage().currentArtboard().addLayers([shapeGroup]);
+            if (myHasOuterGutter) {
+                master.width -= 2 * gridGutter;
             }
+
+            gridTotalWidth = master.width;
+            gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2))) / 12;
+
+            //log("gridTotalWidth: " + gridTotalWidth + ", gridColumnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter);
+            
+            drawGrid(master, false, myHasOuterGutter);
         }
+        displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
 
     }
+}
+
+function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
+    //CREATE GRID
+    doc = NSDocumentController.sharedDocumentController().currentDocument();
+
+    var rectShape;
+    var tempRect;
+    
+    //Add to layer group
+    layerGroup_array = new Array();
+    
+    for (var i=0; i<12; i++) {
+        var myFillColor = "#FF33CC";
+        var myName = "column_" + (i+1);
+        var myObj = new Object();
+        if (myMasterIsArtboard) {
+            var artBoardOffSet = (myMaster.width - gridTotalWidth) * 0.5;
+            myObj.x = artBoardOffSet + (i * (gridColumnWidth + (2 * gridGutter)));
+        } else {
+            myObj.x = myMaster.element.frame().x() + (i * (gridColumnWidth + (2 * gridGutter)));    
+        }
+        if (myHasOuterGutter) {
+            myObj.x += gridGutter;  
+        }
+        myObj.y = myMaster.element.frame().y();
+        myObj.width = gridColumnWidth;
+        myObj.height = 200;
+        tempRect = drawRect(myFillColor, myName, myObj, 0);
+        layerGroup_array.push(tempRect);
+
+        // Add created shape group to the current page.
+        doc.currentPage().currentArtboard().addLayers([tempRect]);
+    }
+}
+
+function drawRect(myFillColor, myName, myObj, myCornerRadius) {
+    if (myCornerRadius == undefined) myCornerRadius = 0;
+    
+    var rectShape;
+    rectShape = MSRectangleShape.alloc().init();
+    rectShape.frame = MSRect.rectWithRect(NSMakeRect(myObj.x, myObj.y, myObj.width, myObj.height));
+    rectShape.cornerRadiusFloat = myCornerRadius;
+    
+    var shapeGroup = MSShapeGroup.shapeWithPath(rectShape);
+    var fill = shapeGroup.style().addStylePartOfType(0);
+    fill.color = MSImmutableColor.colorWithSVGString(myFillColor);
+    
+    shapeGroup.frame().constrainProportions = false; // Set to `true` if you want shape to be constrained.
+    shapeGroup.setName(myName);
+    
+    return shapeGroup;
 }
 
 function setGridSettings(myReference_obj, mySelectionCount) {
@@ -133,8 +140,6 @@ function setGridSettings(myReference_obj, mySelectionCount) {
         gridTotalWidth = 1170;
     }
     gridColumnWidth = getColumnWidth(mySelectionCount);
-
-    log("bootstrapSize: " + bootstrapSize + ", gridTotalWidth: " + gridTotalWidth + ", gridColumnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter);
 }
 
 function onInitialize(context) {
@@ -162,8 +167,6 @@ function onInitialize(context) {
                 master.width = master.element.frame().width();
 
                 setGridSettings(master, [selection count]);
-
-                //log(master.name + ", " + master.width + ", " + gridColumnWidth + ", " + bootstrapSize);
 
                 //displayMessageToUser(context, "✅ One element selected: " + slave.name + " ✅");
                 return true;
