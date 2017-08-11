@@ -23,16 +23,34 @@
             }
         },
         {
-            "name" : "Set bootstrap grid width",
-            "identifier" : "setGrid",
-            "shortcut" : "ctrl shift 0",
+            "name" : "Draw Bootstrap Grid (with outer gutter)",
+            "identifier" : "drawGridWithGutter",
+            "shortcut" : "ctrl shift cmd 0",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
-                "run" : "onSetBootstrapGrid"
+                "run" : "onDrawBootstrapGridWithOuterGutter"
             }
         },
         {
-            "name" : "Increase by 1 column",
+            "name" : "Draw Bootstrap Grid (without outer gutter)",
+            "identifier" : "drawGridWithoutGutter",
+            "shortcut" : "ctrl shift 0",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onDrawBootstrapGridWithoutOuterGutter"
+            }
+        },
+        {
+            "name" : "Select Bootstrap Grid(s)",
+            "identifier" : "selectGrids",
+            "shortcut" : "cmd shift 1",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onSelectGrids"
+            }
+        },
+        {
+            "name" : "Increase selection by 1 column",
             "identifier" : "increaseByOne",
             "shortcut" : "ctrl shift +",
             "script" : "bootstrap_helpers.js",
@@ -41,7 +59,7 @@
             }
         },
         {
-            "name" : "Decrease by 1 column",
+            "name" : "Decrease selection by 1 column",
             "identifier" : "decreaseByOne",
             "shortcut" : "ctrl shift -",
             "script" : "bootstrap_helpers.js",
@@ -50,7 +68,7 @@
             }
         },
         {
-            "name" : "Move left by 1 column",
+            "name" : "Move selection left by 1 column width",
             "identifier" : "moveLeftByOne",
             "shortcut" : "ctrl shift ←",
             "script" : "bootstrap_helpers.js",
@@ -59,7 +77,7 @@
             }
         },
         {
-            "name" : "Move rigth by 1 column",
+            "name" : "Move selection rigth by 1 column width",
             "identifier" : "moveRightByOne",
             "shortcut" : "ctrl shift →",
             "script" : "bootstrap_helpers.js",
@@ -73,7 +91,10 @@
     "items": [
         "playground",
         "-",
-        "setGrid",
+        "drawGridWithGutter",
+        "drawGridWithoutGutter",
+        "selectGrids",
+        "-",
         "increaseByOne",
         "decreaseByOne",
         "moveLeftByOne",
