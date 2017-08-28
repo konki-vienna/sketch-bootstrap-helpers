@@ -1,7 +1,7 @@
 # Bootstrap helpers :gem:
 A plugin to help working with bootstrap grids in Sketch
 
-## Work in progress
+## Work in progress - do not install right now, sorry. :)
 
 # Licence
 The MIT License (MIT)
