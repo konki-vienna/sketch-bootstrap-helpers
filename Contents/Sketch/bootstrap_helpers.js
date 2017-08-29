@@ -268,7 +268,7 @@ function onInitialize(context) {
             gridTotalWidth = master.width;
             gridColumnWidth = getColumnWidth([selection count]);
 
-            log(master.name + ", " + gridTotalWidth + ", " + gridColumnWidth);
+            //log(master.name + ", " + gridTotalWidth + ", " + gridColumnWidth);
 
             return true;
         }
