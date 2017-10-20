@@ -30,6 +30,78 @@ function onPlayground(context) {
 }
 
 /*-------------------------------------------------*/
+//OPENS TOOLBAR WINDOW - END
+/*-------------------------------------------------*/
+function onToolbar(context) {
+  log("onToolbar1")
+  var panelWidth = 240;
+  var panelHeight = 120;
+
+  // Create an NSThread dictionary with a specific identifier
+  var threadDictionary = NSThread.mainThread().threadDictionary();
+  var identifier = "co.awkward.floatingexample";
+
+  // If there's already a panel, prevent the plugin from running
+  if (threadDictionary[identifier]) return;
+
+  // Create the panel and set its appearance
+  var panel = NSPanel.alloc().init();
+  panel.setFrame_display(NSMakeRect(0, 0, panelWidth, panelHeight), true);
+  panel.setStyleMask(NSTexturedBackgroundWindowMask | NSTitledWindowMask | NSClosableWindowMask | NSFullSizeContentViewWindowMask);
+  panel.setBackgroundColor(NSColor.whiteColor());
+
+  // Set the panel's title and title bar appearance
+  panel.title = "";
+  panel.titlebarAppearsTransparent = true;
+
+  // Center and focus the panel
+  panel.center();
+  panel.makeKeyAndOrderFront(null);
+  panel.setLevel(NSFloatingWindowLevel);
+
+  // Make the plugin's code stick around (since it's a floating panel)
+  COScript.currentCOScript().setShouldKeepAround_(true);
+
+  // Hide the Minimize and Zoom button
+  panel.standardWindowButton(NSWindowMiniaturizeButton);//.setHidden(true);
+  panel.standardWindowButton(NSWindowZoomButton);//.setHidden(true);
+
+  // Create the blurred background
+  var vibrancy = NSVisualEffectView.alloc().initWithFrame(NSMakeRect(0, 0, panelWidth, panelHeight));
+  vibrancy.setAppearance(NSAppearance.appearanceNamed(NSAppearanceNameVibrantLight));
+  vibrancy.setBlendingMode(NSVisualEffectBlendingModeBehindWindow);
+
+  // Create the WebView with a request to a Web page in Contents/Resources/
+  var webView = WebView.alloc().initWithFrame(NSMakeRect(0, 0, panelWidth, panelHeight - 44));
+  var request = NSURLRequest.requestWithURL(context.plugin.urlForResourceNamed("webView.html"));
+  webView.mainFrame().loadRequest(request);
+  webView.setDrawsBackground(false);
+
+  // Add the content views to the panel
+  panel.contentView().addSubview(vibrancy);
+  panel.contentView().addSubview(webView);
+
+  // After creating the panel, store a reference to it
+  threadDictionary[identifier] = panel;
+
+  var closeButton = panel.standardWindowButton(NSWindowCloseButton);
+
+  // Assign a function to the Close button
+  closeButton.setCOSJSTargetFunction(function(sender) {
+    panel.close();
+
+    // Remove the reference to the panel
+    threadDictionary.removeObjectForKey(identifier);
+
+    // Stop the plugin
+    COScript.currentCOScript().setShouldKeepAround_(false);
+  });
+}
+/*-------------------------------------------------*/
+//OPENS TOOLBAR WINDOW - END
+/*-------------------------------------------------*/
+
+/*-------------------------------------------------*/
 //SELECT ALL BOOTSTRAP GRIDS ON THAT PAGE - END
 /*-------------------------------------------------*/
 function onSelectGrids(context) {
@@ -135,7 +207,7 @@ function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
     //Add to layer group
     layerGroup_array = new Array();
 
-    for (var i = 0; i < 12; i++) {        
+    for (var i = 0; i < 12; i++) {
         var myName = "column_" + (i + 1);
         var myObj = new Object();
         if (myMasterIsArtboard) {
@@ -175,8 +247,8 @@ function groupLayers(myLayer_array, myGroupName) {
         temp = myLayer_array[i];
         groupLayer.addLayers([temp]);
     }
-    
-    groupLayer.set
+
+    groupLayer.setConstrainProportions(0); //constrainProportions = off
 
     groupLayer.resizeToFitChildrenWithOption(1);
 }
@@ -363,14 +435,16 @@ function onIncreaseByOne(context) {
 function onMoveLeftByOne(context) {
     if (onInitialize(context)) {
         var selection = context.selection;
+        //var temp_gridColumnWidth = getColumnWidth([selection objectAtIndex: 0]);
+        //log(temp_gridColumnWidth);
         //loop through the selected layers
         for (var i = 0; i < selection.count(); i++) {
-          [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() - (gridColumnWidth + gridGutter * 2);
+          [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() - (temp_gridColumnWidth + gridGutter * 2);
         }
 
         //slave.element.frame().x = slave.element.frame().x() - (gridColumnWidth + gridGutter * 2);
 
-        //displayMessageToUser(context, "✅ onMoveLeftByOne " + slave.element.frame().x() + " ✅");
+        displayMessageToUser(context, "✅ onMoveLeftByOne " + " ✅");
     }
 }
 
@@ -384,7 +458,7 @@ function onMoveRightByOne(context) {
 
         //slave.element.frame().x = slave.element.frame().x() + (gridColumnWidth + gridGutter * 2);
 
-        //displayMessageToUser(context, "✅ onMoveRightByOne " + slave.element.frame().x() + " ✅");
+        displayMessageToUser(context, "✅ onMoveRightByOne " + " ✅");
     }
 }
 
@@ -404,18 +478,3 @@ function getColumnWidth(mySelectionCount) {
     }
     return temp;
 }
-
-/*export function LayersMoved (context) {
-  console.log("LayersMoved - by Konstantins Plugin");
-  const movedLayers = Array.from(context.actionContext.layers)
-  let needToArrange = false
-
-  for (const layer of movedLayers) {
-    if(layer.className() == "MSArtboardGroup") {
-      needToArrange = true
-    }
-  }
-  if (needToArrange) {
-    ArrangeArtboards(context)
-  }
-}*/

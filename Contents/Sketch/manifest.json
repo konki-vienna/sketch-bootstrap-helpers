@@ -13,7 +13,7 @@
         {
             "name" : "Playground",
             "identifier" : "playground",
-            "shortcut" : "ctrl 1",
+            "shortcut" : "",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onPlayground",
@@ -84,6 +84,15 @@
             "handlers" : {
                 "run" : "onMoveRightByOne"
             }
+        },
+        {
+            "name" : "Display Toolbar",
+            "identifier" : "toolbar",
+            "shortcut" : "ctrl 1",
+            "script" : "toolbar.js",
+            "handlers" : {
+                "run" : "onToolbar"
+            }
         }
     ],
   "menu": {
@@ -98,7 +107,9 @@
         "increaseByOne",
         "decreaseByOne",
         "moveLeftByOne",
-        "moveRightByOne"
+        "moveRightByOne",
+        "-",
+        "toolbar"
     ]
   }
 }
