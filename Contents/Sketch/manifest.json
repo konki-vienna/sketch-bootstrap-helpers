@@ -41,12 +41,12 @@
             }
         },
         {
-            "name" : "Select Bootstrap Grid(s)",
-            "identifier" : "selectGrids",
+            "name" : "Toggle Visibility of Bootstrap Grid(s)",
+            "identifier" : "toggleVisibility",
             "shortcut" : "cmd shift 1",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
-                "run" : "onSelectGrids"
+                "run" : "onToggleVisibilityOfBootstrapGrids"
             }
         },
         {
@@ -102,7 +102,7 @@
         "-",
         "drawGridWithGutter",
         "drawGridWithoutGutter",
-        "selectGrids",
+        "toggleVisibility",
         "-",
         "increaseByOne",
         "decreaseByOne",
