@@ -18,6 +18,16 @@ A plugin to help working with bootstrap grids in Sketch
 ### 3. Toggle visibility of the bootstrap grid(s)
 * Un-/Hide (`CMD` + `Shift`+ `1`)
 
+## Ideas for improvement
+* Add UI to adjust
+** Grid color/opacity
+** Grid tiers
+** Gutter width
+** Amount of columns (?)
+* Functionality to left/right align layer(s) to grid/to each other
+* ...
+
+
 # Licence
 The MIT License (MIT)
 
