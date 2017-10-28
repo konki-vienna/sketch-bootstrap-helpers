@@ -8,8 +8,10 @@ var gridGutter = 15;
 var gridGroupName = "B00T$TRAP-Grid";
 var myFillColor = "#FF33CC59"; //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
 var master;
-var slave;
-var artboard;
+//var bootstrapGridsAreVisible = true;
+
+var myDictionary = NSThread.mainThread().threadDictionary();
+
 
 var reference_obj = new Object();
 
@@ -29,48 +31,6 @@ function onPlayground(context) {
     };
 }
 
-/*-------------------------------------------------*/
-//SELECT ALL BOOTSTRAP GRIDS ON THAT PAGE - END
-/*-------------------------------------------------*/
-function onSelectGrids(context) {
-    var subSetOfLayers_array = new Array();
-    var selectLayersOfType_inContainer = function (layerType, containerLayer) {
-
-        // Filter layers using NSPredicate
-        var scope = (typeof containerLayer !== 'undefined') ? [containerLayer children] : [[doc currentPage] children],
-            predicate = NSPredicate.predicateWithFormat("(className == %@)", layerType),
-            layers = [scope filteredArrayUsingPredicate: predicate];
-
-        // Deselect current selection
-        //[[doc currentPage] deselectAllLayers]
-
-        // Loop through filtered layers and select them
-        var loop = [layers objectEnumerator],
-            layer;
-        while (layer = [loop nextObject]) {
-            layer.visibility = false;
-            if (layer.name() == gridGroupName) {
-                subSetOfLayers_array.push(layer);
-                [layer select: true byExpandingSelection: true];
-            }
-        }
-        //log([layers count] + " " + layerType + "s found of which " + subSetOfLayers_array.length + " match");
-    }
-
-    // Select all MSLayerGroup in current page
-    selectLayersOfType_inContainer("MSLayerGroup")
-
-    /*for (var i = 0; i < subSetOfLayers_array.length; i++) {
-        subSetOfLayers_array[i].isVisible = false;
-    }*/
-}
-/*-------------------------------------------------*/
-//SELECT ALL BOOTSTRAP GRIDS ON THAT PAGE - END
-/*-------------------------------------------------*/
-
-
-
-
 /*----------------------------------*/
 //DRAWS A BOOTSTRAP GRID - START
 /*----------------------------------*/
@@ -85,15 +45,13 @@ function onDrawBootstrapGridWithoutOuterGutter(context) {
 function drawBootstrapGrid(context, myHasOuterGutter) {
     var selection = context.selection;
 
+
     if ([selection count] == 0 || [selection count] >= 2) {
         displayMessageToUser(context, "❌ Please select a single element. ❌");
     } else {
+        master = setMaster([selection objectAtIndex: 0]);
         if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
             myHasOuterGutter = true; //in case an Artboard is selected, there shall always be a gutter
-            master = new Object();
-            master.element = [selection objectAtIndex: 0];
-            master.name = master.element.name();
-            master.width = master.element.frame().width();
             if (myHasOuterGutter) {
                 setGridSettings(master, 1);
             } else {
@@ -107,18 +65,20 @@ function drawBootstrapGrid(context, myHasOuterGutter) {
                 drawGrid(master, true, myHasOuterGutter);
             }
         } else {
-            master = new Object();
-            master.element = [selection objectAtIndex: 0];
-            master.name = master.element.name();
-            master.width = master.element.frame().width();
+
             if (myHasOuterGutter) {
                 master.width -= 2 * gridGutter;
             }
 
             gridTotalWidth = master.width;
             gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2))) / 12;
+            if (gridColumnWidth <= 1) {
+              displayMessageToUser(context, "❌ Grid to small to make sense ❌");
+              return;
+            } else {
+                drawGrid(master, false, myHasOuterGutter);
+            }
 
-            drawGrid(master, false, myHasOuterGutter);
         }
         displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
 
@@ -135,7 +95,7 @@ function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
     //Add to layer group
     layerGroup_array = new Array();
 
-    for (var i = 0; i < 12; i++) {        
+    for (var i = 0; i < 12; i++) {
         var myName = "column_" + (i + 1);
         var myObj = new Object();
         if (myMasterIsArtboard) {
@@ -151,7 +111,7 @@ function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
         }
 
         myObj.width = gridColumnWidth;
-        myObj.height = 200;
+        myObj.height = myMaster.element.frame().height();
         tempRect = drawRect(myFillColor, myName, myObj, 0);
         layerGroup_array.push(tempRect);
 
@@ -175,8 +135,8 @@ function groupLayers(myLayer_array, myGroupName) {
         temp = myLayer_array[i];
         groupLayer.addLayers([temp]);
     }
-    
-    groupLayer.set
+
+    groupLayer.setConstrainProportions(0); //constrainProportions = off
 
     groupLayer.resizeToFitChildrenWithOption(1);
 }
@@ -202,6 +162,26 @@ function drawRect(myFillColor, myName, myObj, myCornerRadius) {
 //DRAWS A BOOTSTRAP GRID - START
 /*----------------------------------*/
 
+//DECREASES SELECTION BY A COLUMN
+function onDecreaseByOne(context) {
+  changeWidthOfSelectedElement("decrease", context);
+}
+
+//INCREASES SELECTION BY A COLUMN
+function onIncreaseByOne(context) {
+  changeWidthOfSelectedElement("increase", context);
+}
+
+//MOVES SELECTION BY A COLUMN TO THE LEFT
+function onMoveLeftByOne(context) {
+    moveSelectedElements("left", context);
+}
+
+//MOVES SELECTION BY A COLUMN TO THE RIGHT
+function onMoveRightByOne(context) {
+    moveSelectedElements("right", context);
+}
+
 function setGridSettings(myReference_obj, mySelectionCount) {
     if (myReference_obj.width > 0 && myReference_obj.width <= 575) {
         bootstrapSize = "xs";
@@ -225,81 +205,48 @@ function setGridSettings(myReference_obj, mySelectionCount) {
 function onInitialize(context) {
     var selection = context.selection;
 
-    master = new Object();
-    slave = new Object();
-    artboard = new Object();
-
-    if ([selection count] == 0) {
-        displayMessageToUser(context, "❌ Please select one or two elements. ❌");
+    if ([selection count] <= 1) {
+        displayMessageToUser(context, "❌ Please select two elements - one of which a B00T$TRAP-Grid. ❌");
         return false;
     } else {
-        if ([selection count] == 1) {
-            //SINGLE OBJECT SELECTED
-            if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
-                displayMessageToUser(context, "❌ Please select an element and not an artboard. ❌");
-                return false;
-            } else {
-                slave.element = [selection objectAtIndex: 0];
-                slave.name = slave.element.name();
+        var selection = context.selection;
 
-                master.element = slave.element.parentArtboard();
-                master.name = master.element.name();
-                master.width = master.element.frame().width();
-
-                setGridSettings(master, [selection count]);
-
-                //displayMessageToUser(context, "✅ One element selected: " + slave.name + " ✅");
-                return true;
-            }
-        } else if ([selection count] >= 2) {
-            var selection = context.selection;
-            //loop through the selected layers
-            for (var i = 0; i < selection.count(); i++) {
-                if ([selection objectAtIndex: i].class() == "MSArtboardGroup") {
-                    displayMessageToUser(context, "❌ Please do not select an artboard. ❌");
-                    return false;
-                }
-            }
-
-            master.element = [selection objectAtIndex: [selection count] - 1];
-            master.name = master.element.name();
-            master.width = master.element.frame().width();
-
-            gridTotalWidth = master.width;
-            gridColumnWidth = getColumnWidth([selection count]);
-
-            //log(master.name + ", " + gridTotalWidth + ", " + gridColumnWidth);
-
-            return true;
+        var hasBootstrapGrid = false;
+        var temp_i = 0;
+        for (var i = 0; i < selection.count(); i++) {
+          if ([selection objectAtIndex: i].class() == "MSArtboardGroup") {
+              displayMessageToUser(context, "❌ Please do not select an artboard. ❌");
+              return false;
+          }
+          if ([selection objectAtIndex: i].name() == "B00T$TRAP-Grid") {
+            hasBootstrapGrid = true;
+            temp_i = i;
+            break;
+          }
+        }
+        if (!hasBootstrapGrid) {
+          displayMessageToUser(context, "❌ Select a B00T$TRAP-Grid as a reference");
+          return false;
         }
 
+        master = setMaster([selection objectAtIndex: temp_i], temp_i);
+
+        gridTotalWidth = master.width;
+        gridColumnWidth = getColumnWidth([selection count]);
+
+        //log(master.name + ", " + gridTotalWidth + ", " + gridColumnWidth);
+
+        return true;
     }
 }
 
-/*----------------------------------*/
-//Sets the selected element (idealy the bootstrap grid symbol) to full grid width
-/*----------------------------------*/
-function onSetBootstrapGrid(context) {
-    if (onInitialize(context)) {
-        if (bootstrapSize == "xs") {
-            slave.element.frame().width = master.element.frame().width();
-            slave.element.frame().x = 0;
-        } else if (bootstrapSize == "sm") {
-            slave.element.frame().width = 540;
-            slave.element.frame().x = (master.element.frame().width() - slave.element.frame().width()) * 0.5;
-        } else if (bootstrapSize == "md") {
-            slave.element.frame().width = 720;
-            slave.element.frame().x = (master.element.frame().width() - slave.element.frame().width()) * 0.5;
-        } else if (bootstrapSize == "lg") {
-            slave.element.frame().width = 960;
-            slave.element.frame().x = (master.element.frame().width() - slave.element.frame().width()) * 0.5;
-        } else if (bootstrapSize == "xl") {
-            slave.element.frame().width = 1170;
-            slave.element.frame().x = (master.element.frame().width() - slave.element.frame().width()) * 0.5;
-        } else {
-            displayMessageToUser(context, "❌ Something went wrong. ❌");
-        }
-    }
+function setMaster(myElement, myLayerNumber) {
+  temp = new Object();
+  temp.element = myElement;
+  temp.name = temp.element.name();
+  temp.width = temp.element.frame().width();
+  temp.layerPosition = myLayerNumber;
+  return temp;
 }
 
 function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, myGridGutterWidth) {
@@ -328,64 +275,38 @@ function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, my
     }
 }
 
-function onDecreaseByOne(context) {
-    if (onInitialize(context)) {
-        var selection = context.selection;
-        var tempCounter = selection.count();
-        if (selection.count() > 1) {
-            tempCounter = selection.count() - 1;
-        }
-        //loop through the selected layers
-        for (var i = 0; i < tempCounter; i++) {
+function changeWidthOfSelectedElement(myValue, context) {
+  if (onInitialize(context)) {
+    var selection = context.selection;
+    for (var i = 0; i < selection.count(); i++) {
+      if (i != master.layerPosition) {
+        if (myValue == "increase") {
+          [selection objectAtIndex: i].frame().width = findColumnWidth(true, [selection objectAtIndex: i].frame().width(), gridColumnWidth, gridGutter);
+        } else if (myValue == "decrease") {
           [selection objectAtIndex: i].frame().width = findColumnWidth(false, [selection objectAtIndex: i].frame().width(), gridColumnWidth, gridGutter);
         }
-
-        //displayMessageToUser(context, "✅ " + slave.element.frame().width() + ", " + gridColumnWidth + " ✅");
+      }
     }
+    displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
+  }
 }
 
-function onIncreaseByOne(context) {
-    if (onInitialize(context)) {
-        var selection = context.selection;
-        var tempCounter = selection.count();
-        if (selection.count() > 1) {
-            tempCounter = selection.count() - 1;
+function moveSelectedElements(myDirection, context) {
+  if (onInitialize(context)) {
+    var selection = context.selection;
+    //loop through the selected layers
+    for (var i = 0; i < selection.count(); i++) {
+      if (i != master.layerPosition) {
+        if (myDirection == "right") {
+            [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() + (gridColumnWidth + gridGutter * 2);
+        } else if (myDirection == "left") {
+            [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() - (gridColumnWidth + gridGutter * 2);
         }
-        //loop through the selected layers
-        for (var i = 0; i < tempCounter; i++) {
-          [selection objectAtIndex: i].frame().width = findColumnWidth(true, [selection objectAtIndex: i].frame().width(), gridColumnWidth, gridGutter);
-        }
-
-        //displayMessageToUser(context, "✅ " + slave.element.frame().width() + ", " + gridColumnWidth + " ✅");
+      }
     }
-}
 
-function onMoveLeftByOne(context) {
-    if (onInitialize(context)) {
-        var selection = context.selection;
-        //loop through the selected layers
-        for (var i = 0; i < selection.count(); i++) {
-          [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() - (gridColumnWidth + gridGutter * 2);
-        }
-
-        //slave.element.frame().x = slave.element.frame().x() - (gridColumnWidth + gridGutter * 2);
-
-        //displayMessageToUser(context, "✅ onMoveLeftByOne " + slave.element.frame().x() + " ✅");
-    }
-}
-
-function onMoveRightByOne(context) {
-    if (onInitialize(context)) {
-        var selection = context.selection;
-        //loop through the selected layers
-        for (var i = 0; i < selection.count(); i++) {
-          [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() + (gridColumnWidth + gridGutter * 2);
-        }
-
-        //slave.element.frame().x = slave.element.frame().x() + (gridColumnWidth + gridGutter * 2);
-
-        //displayMessageToUser(context, "✅ onMoveRightByOne " + slave.element.frame().x() + " ✅");
-    }
+    displayMessageToUser(context, "✅ Selection moved " + myDirection + " by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + ") ✅ ");
+  }
 }
 
 /*----------------------------------*/
@@ -402,20 +323,54 @@ function getColumnWidth(mySelectionCount) {
             temp = (gridTotalWidth - (11 * 30)) / 12;
         }
     }
+    console.log("width:" + temp);
     return temp;
 }
 
-/*export function LayersMoved (context) {
-  console.log("LayersMoved - by Konstantins Plugin");
-  const movedLayers = Array.from(context.actionContext.layers)
-  let needToArrange = false
+/*-----------------------------------------------------------*/
+//TOGGLE VISIBILITY OF ALL BOOTSTRAP GRIDS ON THAT PAGE - START
+/*-----------------------------------------------------------*/
+function onToggleVisibilityOfBootstrapGrids(context) {
+    var subSetOfLayers_array = new Array();
+    var selectLayersOfType_inContainer = function (layerType, containerLayer) {
 
-  for (const layer of movedLayers) {
-    if(layer.className() == "MSArtboardGroup") {
-      needToArrange = true
+        // Filter layers using NSPredicate
+        var scope = (typeof containerLayer !== 'undefined') ? [containerLayer children] : [[doc currentPage] children],
+            predicate = NSPredicate.predicateWithFormat("(className == %@)", layerType),
+            layers = [scope filteredArrayUsingPredicate: predicate];
+
+        // Deselect current selection
+        //[[doc currentPage] deselectAllLayers]
+
+        // Loop through filtered layers and select them
+        var loop = [layers objectEnumerator]
+        while (layer = [loop nextObject]) {
+            if (layer.name() == gridGroupName) {
+                subSetOfLayers_array.push(layer);
+                [layer select: true byExpandingSelection: true];
+            }
+        }
+        //log([layers count] + " " + layerType + "s found of which " + subSetOfLayers_array.length + " match");
     }
-  }
-  if (needToArrange) {
-    ArrangeArtboards(context)
-  }
-}*/
+
+    // Select all MSLayerGroup in current page
+    selectLayersOfType_inContainer("MSLayerGroup");
+
+
+    if (myDictionary["bootstrapGridsAreVisible"] == true) {
+      for (var i = 0; i < subSetOfLayers_array.length; i++) {
+        subSetOfLayers_array[i].isVisible = false;
+      }
+      myDictionary["bootstrapGridsAreVisible"] = false;
+    } else {
+      for (var i = 0; i < subSetOfLayers_array.length; i++) {
+        subSetOfLayers_array[i].isVisible = true;
+        //displayMessageToUser(context, "Set visible");
+      }
+      myDictionary["bootstrapGridsAreVisible"] = true;
+    }
+
+}
+/*-----------------------------------------------------------*/
+//TOGGLE VISIBILITY OF ALL BOOTSTRAP GRIDS ON THAT PAGE - END
+/*-----------------------------------------------------------*/

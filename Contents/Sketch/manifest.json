@@ -13,7 +13,7 @@
         {
             "name" : "Playground",
             "identifier" : "playground",
-            "shortcut" : "ctrl 1",
+            "shortcut" : "",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onPlayground",
@@ -41,12 +41,12 @@
             }
         },
         {
-            "name" : "Select Bootstrap Grid(s)",
-            "identifier" : "selectGrids",
+            "name" : "Toggle Visibility of Bootstrap Grid(s)",
+            "identifier" : "toggleVisibility",
             "shortcut" : "cmd shift 1",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
-                "run" : "onSelectGrids"
+                "run" : "onToggleVisibilityOfBootstrapGrids"
             }
         },
         {
@@ -84,6 +84,15 @@
             "handlers" : {
                 "run" : "onMoveRightByOne"
             }
+        },
+        {
+            "name" : "Display Toolbar",
+            "identifier" : "toolbar",
+            "shortcut" : "ctrl 1",
+            "script" : "toolbar.js",
+            "handlers" : {
+                "run" : "onToolbar"
+            }
         }
     ],
   "menu": {
@@ -93,12 +102,14 @@
         "-",
         "drawGridWithGutter",
         "drawGridWithoutGutter",
-        "selectGrids",
+        "toggleVisibility",
         "-",
         "increaseByOne",
         "decreaseByOne",
         "moveLeftByOne",
-        "moveRightByOne"
+        "moveRightByOne",
+        "-",
+        "toolbar"
     ]
   }
 }
