@@ -8,7 +8,7 @@ var gridGutter = 15;
 var gridGroupName = "B00T$TRAP-Grid";
 var myFillColor = "#FF33CC59"; //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
 var master;
-//var bootstrapGridsAreVisible = true;
+var page;
 
 var myDictionary = NSThread.mainThread().threadDictionary();
 
@@ -46,9 +46,9 @@ function drawBootstrapGrid(context, myHasOuterGutter) {
     var selection = context.selection;
 
 
-    if ([selection count] == 0 || [selection count] >= 2) {
+    if ([selection count] == 0 || [selection count] > 2) {
         displayMessageToUser(context, "❌ Please select a single element. ❌");
-    } else {
+    } else if ([selection count] == 1){
         master = setMaster([selection objectAtIndex: 0]);
         if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
             myHasOuterGutter = true; //in case an Artboard is selected, there shall always be a gutter
@@ -81,14 +81,40 @@ function drawBootstrapGrid(context, myHasOuterGutter) {
 
         }
         displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
+    } else if ([selection count] == 2) {
+      if ([selection objectAtIndex: 0].class() == "MSShapeGroup" && [selection objectAtIndex: 1].class() == "MSShapeGroup") {
+        //GROUP SELECTION - as a workaround to beeing able to get width & height
+        //Add to layer group
+        var temp_layerGroup_array = new Array();
+        // Add created shape group to the current page.
+        temp_layerGroup_array.push([selection objectAtIndex: 0]);
+        temp_layerGroup_array.push([selection objectAtIndex: 1]);
 
+        groupLayers(temp_layerGroup_array, "t3mpGroup");
+
+        //selectContaining(context, "t3mpGroup");
+        /*var temp_array = findLayersNamed_inContainer_filterByType("t3mpGroup");
+
+        // Loop through filtered layers and select them
+        var loop = [temp_array objectEnumerator]
+        [[doc currentPage] deselectAllLayers];
+        while (layer = [loop nextObject]) {
+            //if (layer.name() == gridGroupName) {
+                //subSetOfLayers_array.push(layer);
+                [layer select: true byExtendingSelection: true];
+                log(layer.name());
+            //}
+        }*/
+        //TODO - 1. Unselect all selected layers; 2. Select the GroupLayer; 3. ...
+      } else {
+        displayMessageToUser(context, "❌ Please select two shapes ❌");
+        return;
+      }
     }
 }
 
 function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
     //CREATE GRID
-    //doc = NSDocumentController.sharedDocumentController().currentDocument();
-
     var rectShape;
     var tempRect;
 
@@ -202,6 +228,25 @@ function setGridSettings(myReference_obj, mySelectionCount) {
     gridColumnWidth = getColumnWidth(mySelectionCount);
 }
 
+function onInitialize2(context) {
+  var selection = context.selection;
+  if ([selection count] == 0) {
+    displayMessageToUser(context, "❌ Please select one or more elements ❌");
+    return false;
+  } else {
+    //LOOK IF SOMETHING IS AN ARTBOARD OR AN B00T$TRAP-Grid
+    for (var i = 0; i < selection.count(); i++) {
+      if ([selection objectAtIndex: i].class() == "MSArtboardGroup" || [selection objectAtIndex: i].name() == "B00T$TRAP-Grid") {
+          displayMessageToUser(context, "❌ Please do not select an artboard or a folder named B00T$TRAP-Grid. ❌");
+          return false;
+      }
+    }
+
+
+    return true;
+  }
+}
+
 function onInitialize(context) {
     var selection = context.selection;
 
@@ -249,6 +294,14 @@ function setMaster(myElement, myLayerNumber) {
   return temp;
 }
 
+function setMaster2(myElement) {
+  temp = new Object();
+  temp.element = myElement;
+  temp.name = temp.element.name();
+  temp.width = temp.element.frame().width();
+  return temp;
+}
+
 function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, myGridGutterWidth) {
     if (shallBeIncreased) {
         var index = 1;
@@ -276,7 +329,38 @@ function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, my
 }
 
 function changeWidthOfSelectedElement(myValue, context) {
-  if (onInitialize(context)) {
+  if (onInitialize2(context)) {
+    var selection = context.selection;
+    var parent = [selection objectAtIndex: 0].parentGroup();
+
+    var parentContainsBootstrapGrid = false;
+    for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
+      if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
+        parentContainsBootstrapGrid = true;
+        //master = setMaster2(parent.treeAsDictionary().layers[i].treeAsDictionary());
+
+        gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
+        gridColumnWidth = getColumnWidth(0);
+        break;
+      }
+    }
+    if (parentContainsBootstrapGrid) {
+      //MOVE ALL SELECTED OBJECTS
+      log("Should scale now");
+      for (var j = 0; j < selection.count(); j++) {
+        if (myValue == "increase") {
+            [selection objectAtIndex: j].frame().width = findColumnWidth(true, [selection objectAtIndex: j].frame().width(), gridColumnWidth, gridGutter);
+        } else if (myValue == "decrease") {
+            [selection objectAtIndex: j].frame().width = findColumnWidth(false, [selection objectAtIndex: j].frame().width(), gridColumnWidth, gridGutter);
+        }
+      }
+    } else {
+      displayMessageToUser(context, "❌ There has to be a B00T$TRAP-Grid Layer in the same folder as your selection. ❌");
+    }
+    displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
+  }
+
+  /*if (onInitialize(context)) {
     var selection = context.selection;
     for (var i = 0; i < selection.count(); i++) {
       if (i != master.layerPosition) {
@@ -288,25 +372,39 @@ function changeWidthOfSelectedElement(myValue, context) {
       }
     }
     displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
-  }
+  }*/
 }
 
 function moveSelectedElements(myDirection, context) {
-  if (onInitialize(context)) {
-    var selection = context.selection;
-    //loop through the selected layers
-    for (var i = 0; i < selection.count(); i++) {
-      if (i != master.layerPosition) {
-        if (myDirection == "right") {
-            [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() + (gridColumnWidth + gridGutter * 2);
-        } else if (myDirection == "left") {
-            [selection objectAtIndex: i].frame().x = [selection objectAtIndex: i].frame().x() - (gridColumnWidth + gridGutter * 2);
+  if (onInitialize2(context)) {
+      var selection = context.selection;
+      var parent = [selection objectAtIndex: 0].parentGroup();
+
+      var parentContainsBootstrapGrid = false;
+      for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
+        if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
+          parentContainsBootstrapGrid = true;
+          //master = setMaster2(parent.treeAsDictionary().layers[i].treeAsDictionary());
+
+          gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
+          gridColumnWidth = getColumnWidth(0);
+          break;
         }
       }
+      if (parentContainsBootstrapGrid) {
+        //MOVE ALL SELECTED OBJECTS
+        for (var j = 0; j < selection.count(); j++) {
+          if (myDirection == "right") {
+              [selection objectAtIndex: j].frame().x = [selection objectAtIndex: j].frame().x() + (gridColumnWidth + gridGutter * 2);
+          } else if (myDirection == "left") {
+              [selection objectAtIndex: j].frame().x = [selection objectAtIndex: j].frame().x() - (gridColumnWidth + gridGutter * 2);
+          }
+        }
+      } else {
+        displayMessageToUser(context, "❌ There has to be a B00T$TRAP-Grid Layer in the same folder as your selection. ❌");
+      }
+      displayMessageToUser(context, "✅ Selection moved " + myDirection + " by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + ") ✅ ");
     }
-
-    displayMessageToUser(context, "✅ Selection moved " + myDirection + " by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + ") ✅ ");
-  }
 }
 
 /*----------------------------------*/
@@ -374,3 +472,60 @@ function onToggleVisibilityOfBootstrapGrids(context) {
 /*-----------------------------------------------------------*/
 //TOGGLE VISIBILITY OF ALL BOOTSTRAP GRIDS ON THAT PAGE - END
 /*-----------------------------------------------------------*/
+
+/*-----------------------------------
+//HELPERS - START
+-----------------------------------*/
+//FIND LAYERS BY NAME
+//function findLayersNamed_inContainer_filterByType(layerName, container, layerType) {
+var findLayersNamed_inContainer_filterByType = function(layerName, container, layerType) {
+    var predicate = (typeof layerType === 'undefined' || layerType == nil) ? NSPredicate.predicateWithFormat("name == %@", layerName) : NSPredicate.predicateWithFormat("name == %@ && class == %@", layerName, layerType)
+    return findLayersMatchingPredicate_inContainer_filterByType(predicate, container)
+}
+
+var findLayersMatchingPredicate_inContainer_filterByType = function(predicate, container, layerType) {
+    var scope;
+    switch (layerType) {
+        case MSPage :
+            scope = doc.pages()
+            return scope.filteredArrayUsingPredicate(predicate)
+        break;
+
+        case MSArtboardGroup :
+            if(typeof container !== 'undefined' && container != nil) {
+                if (container.className == "MSPage") {
+                    scope = container.artboards()
+                    return scope.filteredArrayUsingPredicate(predicate)
+                }
+            } else {
+                // search all pages
+                var filteredArray = NSArray.array()
+                var loopPages = doc.pages().objectEnumerator(), page;
+                while (page = loopPages.nextObject()) {
+                    scope = page.artboards()
+                    filteredArray = filteredArray.arrayByAddingObjectsFromArray(scope.filteredArrayUsingPredicate(predicate))
+                }
+                return filteredArray
+            }
+        break;
+
+        default :
+            if(typeof container !== 'undefined' && container != nil) {
+                scope = container.children()
+                return scope.filteredArrayUsingPredicate(predicate)
+            } else {
+                // search all pages
+                var filteredArray = NSArray.array()
+                var loopPages = doc.pages().objectEnumerator(), page;
+                while (page = loopPages.nextObject()) {
+                    scope = page.children()
+                    filteredArray = filteredArray.arrayByAddingObjectsFromArray(scope.filteredArrayUsingPredicate(predicate))
+                }
+                return filteredArray
+            }
+    }
+    return NSArray.array() // Return an empty array if no matches were found
+}
+/*-----------------------------------
+//HELPERS - END
+-----------------------------------*/

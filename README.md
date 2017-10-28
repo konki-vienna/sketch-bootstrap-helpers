@@ -1,7 +1,22 @@
 # Bootstrap helpers :gem:
 A plugin to help working with bootstrap grids in Sketch
 
-## Work in progress - do not install right now, sorry. :)
+### Work in progress - ~~do not install right now~~ use at your own risk, sorry. :)
+
+## Functionality
+
+### 1. Draw a bootstrap grid
+* Grid without outer gutter (`CTRL` + `Shift`+ `0`)
+* Grid with outer gutter (`CTRL` + `Shift`+ `CMD` + `0`)  
+
+### 2. Move and in-/decrease width of layers according to the bootstrap grid
+* Move selected layer(s) left (`CTRL` + `Shift`+ `←`)
+* Move selected layer(s) right (`CTRL` + `Shift`+ `→`)
+* Increase selected layer(s) in width (`CTRL` + `Shift`+ `+`)
+* Decrease selected layer(s) in width (`CTRL` + `Shift`+ `-`)
+
+### 3. Toggle visibility of the bootstrap grid(s)
+* Un-/Hide (`CMD` + `Shift`+ `1`)
 
 # Licence
 The MIT License (MIT)
