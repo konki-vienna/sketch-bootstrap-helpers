@@ -287,6 +287,7 @@ function changeWidthOfSelectedElement(myValue, context) {
         }
       }
     }
+    displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
   }
 }
 
@@ -304,7 +305,7 @@ function moveSelectedElements(myDirection, context) {
       }
     }
 
-    displayMessageToUser(context, "✅ onMoveRightByOne ✅" + " gridColumnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter););
+    displayMessageToUser(context, "✅ Selection moved " + myDirection + " by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + ") ✅ ");
   }
 }
 
