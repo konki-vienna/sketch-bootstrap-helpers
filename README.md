@@ -1,7 +1,8 @@
 # Bootstrap helpers :gem:
 A plugin to help working with bootstrap grids in Sketch
 
-### Work in progress - ~~do not install right now~~ use at your own risk, sorry. :)
+## Download:
+[Download here](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/appcast.xml)
 
 ## Functionality
 
