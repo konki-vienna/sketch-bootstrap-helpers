@@ -10,12 +10,12 @@
       <description>
         <![CDATA[
           <ul>
-            <li>You can move (left/right) and in-/decrease width of layer(s)</li>
+            <li>You can move (left/right) and in-/decrease width of layer(s) version 0.0.9</li>
           </ul>
         ]]>
       </description>
       <pubDate>Tue, 29 Oct 2017 15:00:00 +0000</pubDate>
-      <enclosure url="https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/versions/BootstrapHelpers_v.0.0.9.zip" sparkle:version="0.0.9" length="107758" type="application/octet-stream" />
+      <enclosure url="https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/versions/BootstrapHelpers_v.0.0.9.zip" sparkle:version="0.0.9" />
     </item>
   </channel>
 </rss>
