@@ -6,7 +6,7 @@
     "homepage": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md",
     "version": "0.0.8",
     "identifier": "at.demblin.sketch-bootstrap-helpers",
-    "appcast": "../appcast.xml",
+    "appcast": "https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/appcast.xml",
     "compatibleVersion": "4.5",
     "bundleVersion": 1,
     "commands": [
