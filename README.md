@@ -2,7 +2,7 @@
 A plugin to help working with bootstrap grids in Sketch
 
 ## Download
-Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/versions/BootstrapHelpers_v.0.0.9.zip?raw=true), extract zip-file and double click on 'BootstrapHelpers.sketchplugin'
+Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/master/versions), extract zip-file and double click on 'BootstrapHelpers.sketchplugin'
 
 ## Functionality
 
