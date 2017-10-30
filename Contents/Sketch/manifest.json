@@ -3,10 +3,10 @@
     "description": "Some tools to help working with bootstrap grids",
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
-    "homepage": "https://www.google.com",
-    "version": "0.0.1",
+    "homepage": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md",
+    "version": "0.0.9",
     "identifier": "at.demblin.sketch-bootstrap-helpers",
-    "appcast": "appcast.xml",
+    "appcast": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/appcast.xml",
     "compatibleVersion": "4.5",
     "bundleVersion": 1,
     "commands": [
@@ -98,8 +98,6 @@
   "menu": {
     "title" : "Bootstrap Helpers",
     "items": [
-        "playground",
-        "-",
         "drawGridWithGutter",
         "drawGridWithoutGutter",
         "toggleVisibility",
@@ -107,9 +105,7 @@
         "increaseByOne",
         "decreaseByOne",
         "moveLeftByOne",
-        "moveRightByOne",
-        "-",
-        "toolbar"
+        "moveRightByOne"
     ]
   }
 }

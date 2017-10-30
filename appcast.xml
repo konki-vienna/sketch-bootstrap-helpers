@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Bootstrap Helpers</title>
+    <link>http://sparkle-project.org/files/sparkletestcast.xml</link>
+    <description>A plugin to help working with bootstrap grids in Sketch</description>
+    <language>en</language>
+    <item>
+      <title>Version 1.0.0</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>You can move (left/right) and in-/decrease width of layer(s)</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Tue, 29 Oct 2017 15:00:00 +0000</pubDate>
+      <enclosure url="version/BootstrapHelpers_v.1.0.0.zip" sparkle:version="1.0.10" length="107758" type="application/octet-stream" />
+    </item>
+  </channel>
+</rss>
