@@ -32,7 +32,7 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 The plugin is compatible with Sketch 4+.
 
 ## Donations
-If this project help you in some way, you can invite us a :beer: ;) or share this project via social media.
+If this project help you in some way, you can invite me on a :coffee: ;) or share this project via social media.
 
 Thank you!
 
