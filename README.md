@@ -7,8 +7,8 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 ## Functionality
 
 ### 1. Draw a bootstrap grid
-* Grid without outer gutter (`CTRL` + `Shift`+ `0`)
-* Grid with outer gutter (`CTRL` + `Shift`+ `CMD` + `0`)  
+1. Select an artboard or layer
+2. Select `Grid without outer gutter` (`CTRL` + `Shift`+ `0`) or `Grid with outer gutter` (`CTRL` + `Shift`+ `CMD` + `0`)  
 
 ### 2. Move and in-/decrease width of layers according to the bootstrap grid
 * Move selected layer(s) left (`CTRL` + `Shift`+ `←`)
