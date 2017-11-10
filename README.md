@@ -7,11 +7,13 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 ## Functionality
 
 ### 1. Draw a bootstrap grid
+![Draw Grid](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/createGrid.gif "Draw Grid")
 1. Select an artboard or layer
 2. Select `Grid without outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>0</kbd>) or `Grid with outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>CMD</kbd> + <kbd>0</kbd>)  
 
 ### 2. Move and in-/decrease width of layers according to the bootstrap grid
-General idea: when you want to move or de-/increase one ore several selected objects according to a Bootstrap layer, you have to take into account that the selected layer(s) relate to a folder with a Bootstrap grid ("B00T$TRAP-Grid") that is a sibling of the selected layer(s).
+General idea: when you want to move or de-/increase the size of one ore several selected objects according to a Bootstrap layer, you have to take into account that the selected layer(s) relate to a folder with a Bootstrap grid ("B00T$TRAP-Grid") that is a sibling of the selected layer(s).
+![Move or de-/increase layer(s)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElement.gif "Move or de-/increase layer(s)")
 * Move selected layer(s) left (Shortcut: <kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>←</kbd>)
 * Move selected layer(s) right (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>→</kbd>)
 * Increase selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>+</kbd>)
