@@ -8,16 +8,17 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 
 ### 1. Draw a bootstrap grid
 1. Select an artboard or layer
-2. Select `Grid without outer gutter` (`CTRL` + `Shift`+ `0`) or `Grid with outer gutter` (`CTRL` + `Shift`+ `CMD` + `0`)  
+2. Select `Grid without outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>0</kbd>) or `Grid with outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>CMD</kbd> + <kbd>0</kbd>)  
 
 ### 2. Move and in-/decrease width of layers according to the bootstrap grid
+General idea: when you want to move or de-/increase one ore several selected objects according to a Bootstrap layer, you have to take into account that the selected layer(s) relate to a folder with a Bootstrap grid ("B00T$TRAP-Grid") that is a sibling of the selected layer(s).
 * Move selected layer(s) left (Shortcut: <kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>←</kbd>)
-* Move selected layer(s) right (`CTRL` + `Shift`+ `→`)
-* Increase selected layer(s) in width (`CTRL` + `Shift`+ `+`)
-* Decrease selected layer(s) in width (`CTRL` + `Shift`+ `-`)
+* Move selected layer(s) right (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>→</kbd>)
+* Increase selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>+</kbd>)
+* Decrease selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>-</kbd>)
 
 ### 3. Toggle visibility of the bootstrap grid(s)
-* Un-/Hide (`CMD` + `Shift`+ `1`)
+* Un-/Hide (`CMD` + <kbd>Shift</kbd>+ <kbd>1</kbd>)
 
 ## Ideas for improvement
 * Add UI to adjust
