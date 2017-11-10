@@ -28,6 +28,19 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 * Functionality to left/right align layer(s) to grid/to each other
 * ...
 
+## Compatibility
+The plugin is compatible with Sketch 4+.
+
+## Donations
+If this project help you in some way, you can invite us a :beer: ;) or share this project via social media.
+
+Thank you!
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L85KKXEFFH6HE)
+
+## Contact
+If you have any questions or troubles with our product, please feel free to open an issue [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/issues).
+But be aware that I have unfortunately very limited resources to work on that plugin.
+
 
 # Licence
 The MIT License (MIT)
