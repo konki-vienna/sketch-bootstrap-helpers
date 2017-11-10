@@ -35,6 +35,7 @@ The plugin is compatible with Sketch 4+.
 If this project help you in some way, you can invite us a :beer: ;) or share this project via social media.
 
 Thank you!
+
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L85KKXEFFH6HE)
 
 ## Contact
