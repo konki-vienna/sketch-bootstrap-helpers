@@ -45,71 +45,40 @@ function onDrawBootstrapGridWithoutOuterGutter(context) {
 function drawBootstrapGrid(context, myHasOuterGutter) {
     var selection = context.selection;
 
+    if ([selection count] == 1) {
+      master = setMaster([selection objectAtIndex: 0]);
+      if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
+          myHasOuterGutter = true; //in case an Artboard is selected, there shall always be a gutter
+          if (myHasOuterGutter) {
+              setGridSettings(master, 1);
+          } else {
+              setGridSettings(master, 2);
+          }
 
-    if ([selection count] == 0 || [selection count] > 2) {
-        displayMessageToUser(context, "❌ Please select a single element. ❌");
-    } else if ([selection count] == 1){
-        master = setMaster([selection objectAtIndex: 0]);
-        if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
-            myHasOuterGutter = true; //in case an Artboard is selected, there shall always be a gutter
-            if (myHasOuterGutter) {
-                setGridSettings(master, 1);
-            } else {
-                setGridSettings(master, 2);
-            }
-
-            if (bootstrapSize == "xs") {
-                displayMessageToUser(context, "❌ Drawing a grid for this (and smaller) artboard sizes is not supported ❌");
-                return;
-            } else {
-                drawGrid(master, true, myHasOuterGutter);
-            }
-        } else {
-
-            if (myHasOuterGutter) {
-                master.width -= 2 * gridGutter;
-            }
-
-            gridTotalWidth = master.width;
-            gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2))) / 12;
-            if (gridColumnWidth <= 1) {
-              displayMessageToUser(context, "❌ Grid to small to make sense ❌");
+          if (bootstrapSize == "xs") {
+              displayMessageToUser(context, "❌ Drawing a grid for this (and smaller) artboard sizes is not supported ❌");
               return;
-            } else {
-                drawGrid(master, false, myHasOuterGutter);
-            }
-
-        }
-        displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
-    } else if ([selection count] == 2) {
-      if ([selection objectAtIndex: 0].class() == "MSShapeGroup" && [selection objectAtIndex: 1].class() == "MSShapeGroup") {
-        //GROUP SELECTION - as a workaround to beeing able to get width & height
-        //Add to layer group
-        var temp_layerGroup_array = new Array();
-        // Add created shape group to the current page.
-        temp_layerGroup_array.push([selection objectAtIndex: 0]);
-        temp_layerGroup_array.push([selection objectAtIndex: 1]);
-
-        groupLayers(temp_layerGroup_array, "t3mpGroup");
-
-        //selectContaining(context, "t3mpGroup");
-        /*var temp_array = findLayersNamed_inContainer_filterByType("t3mpGroup");
-
-        // Loop through filtered layers and select them
-        var loop = [temp_array objectEnumerator]
-        [[doc currentPage] deselectAllLayers];
-        while (layer = [loop nextObject]) {
-            //if (layer.name() == gridGroupName) {
-                //subSetOfLayers_array.push(layer);
-                [layer select: true byExtendingSelection: true];
-                log(layer.name());
-            //}
-        }*/
-        //TODO - 1. Unselect all selected layers; 2. Select the GroupLayer; 3. ...
+          } else {
+              drawGrid(master, true, myHasOuterGutter);
+          }
       } else {
-        displayMessageToUser(context, "❌ Please select two shapes ❌");
-        return;
+          if (myHasOuterGutter) {
+              master.width -= 2 * gridGutter;
+          }
+
+          gridTotalWidth = master.width;
+          gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2))) / 12;
+          if (gridColumnWidth <= 1) {
+            displayMessageToUser(context, "❌ Grid to small to make sense ❌");
+            return;
+          } else {
+              drawGrid(master, false, myHasOuterGutter);
+          }
+
       }
+      displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
+    } else {
+      displayMessageToUser(context, "❌ Please select a single element. ❌");
     }
 }
 
@@ -145,25 +114,34 @@ function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
         doc.currentPage().currentArtboard().addLayers([tempRect]);
     }
 
-    groupLayers(layerGroup_array, gridGroupName);
+    groupLayers(layerGroup_array, gridGroupName, myMasterIsArtboard, myMaster);
 }
 
-function groupLayers(myLayer_array, myGroupName) {
+function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMaster) {
     //CREATE GROUP
     var groupLayer = MSLayerGroup.new();
     groupLayer.name = myGroupName;
-    var parent = myLayer_array[0].parentGroup();
+    if (myMasterIsArtboard) {
+      var parent = myLayer_array[0].parentGroup();
+    } else {
+      var myRoot = myLayer_array[0].parentGroup();
+      var parent = myMaster.element.parentGroup();
+    }
+
     parent.addLayers([groupLayer]);
 
     var temp;
     for (var i = 0; i < myLayer_array.length; i++) {
-        parent.removeLayer(myLayer_array[i]);
+        if (myMasterIsArtboard) {
+          parent.removeLayer(myLayer_array[i]);
+        } else {
+            myRoot.removeLayer(myLayer_array[i]);
+        }
         temp = myLayer_array[i];
         groupLayer.addLayers([temp]);
     }
 
     groupLayer.setConstrainProportions(0); //constrainProportions = off
-
     groupLayer.resizeToFitChildrenWithOption(1);
 }
 
@@ -294,14 +272,6 @@ function setMaster(myElement, myLayerNumber) {
   return temp;
 }
 
-function setMaster2(myElement) {
-  temp = new Object();
-  temp.element = myElement;
-  temp.name = temp.element.name();
-  temp.width = temp.element.frame().width();
-  return temp;
-}
-
 function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, myGridGutterWidth) {
     if (shallBeIncreased) {
         var index = 1;
@@ -337,7 +307,6 @@ function changeWidthOfSelectedElement(myValue, context) {
     for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
       if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
         parentContainsBootstrapGrid = true;
-        //master = setMaster2(parent.treeAsDictionary().layers[i].treeAsDictionary());
 
         gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
         gridColumnWidth = getColumnWidth(0);
@@ -384,7 +353,6 @@ function moveSelectedElements(myDirection, context) {
       for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
         if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
           parentContainsBootstrapGrid = true;
-          //master = setMaster2(parent.treeAsDictionary().layers[i].treeAsDictionary());
 
           gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
           gridColumnWidth = getColumnWidth(0);
