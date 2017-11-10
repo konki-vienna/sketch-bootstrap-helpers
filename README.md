@@ -36,8 +36,7 @@ If this project help you in some way, you can invite me on a :coffee: ;) or shar
 
 Thank you!
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L85KKXEFFH6HE)
-
+[![paypal](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L85KKXEFFH6HE)
 
 ## Contact
 If you have any questions or troubles with our product, please feel free to open an issue [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/issues).
