@@ -1,0 +1,97 @@
+html {
+  box-sizing: border-box;
+  background: transparent;
+
+  /* Prevent the page to be scrollable */
+  overflow: hidden;
+
+  /* Force the default cursor, even on text */
+  cursor: default;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+  position: relative;
+
+  /* Prevent the content from being selectionable */
+  user-select: none;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  box-shadow: 0 1px rgba(0, 0, 0, 0.08);
+  padding: 5px;
+}
+
+ul:first-of-type {
+  padding-top: 0;
+}
+
+li {
+  flex: 1 1 50%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  background-size: 24px;
+  flex: none;
+  transition: all .1s ease;
+  cursor: pointer;
+}
+
+.icon:active {
+  transform: scale(0.8);
+  opacity: 0.5;
+}
+
+.icon--rectangle {
+  background-image: url(../images/icons/rectangle@2x.png);
+}
+
+.icon--oval {
+  background-image: url(../images/icons/oval@2x.png);
+}
+
+.icon--triangle {
+  background-image: url(../images/icons/triangle@2x.png);
+}
+
+.icon--star {
+  background-image: url(../images/icons/star@2x.png);
+}
+
+.icon--image {
+  background-image: url(../images/icons/image@2x.png);
+}
+
+.icon--artboard {
+  background-image: url(../images/icons/artboard@2x.png);
+}
+
+.preview {
+  margin: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 3px;
+  background: url(../images/alpha.svg) repeat;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.preview__item {
+  width: 40px !important;
+  height: 40px !important;
+  flex: none !important;
+}
