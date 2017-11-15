@@ -4,7 +4,7 @@
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "identifier": "at.demblin.sketch-bootstrap-helpers",
     "appcast": "https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/appcast.xml",
     "compatibleVersion": "4.5",

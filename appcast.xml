@@ -6,6 +6,18 @@
     <description>A plugin to help working with bootstrap grids in Sketch</description>
     <language>en</language>
     <item>
+      <title>Version 0.1.1</title>
+      <description>
+        <![CDATA[
+          <ul>
+            <li>Now with support for Sketch Runner. ;)</li>
+          </ul>
+        ]]>
+      </description>
+      <pubDate>Tue, 10 Nov 2017 15:00:00 +0000</pubDate>
+      <enclosure url="https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/versions/BootstrapHelpers_v.0.1.1.zip" sparkle:version="0.1.1" />
+    </item>
+    <item>
       <title>Version 0.1.0</title>
       <description>
         <![CDATA[
