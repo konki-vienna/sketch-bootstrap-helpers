@@ -35,7 +35,7 @@ General idea: when you want to move or de-/increase the size of one ore several 
 The plugin is compatible with Sketch 4+.
 
 <a href="http://bit.ly/SketchRunnerWebsite">
-    <img src="http://bit.ly/RunnerBadgeBlue">
+    <img height="40" width="160" src="http://bit.ly/RunnerBadgeBlue">
 </a>
 
 ## Donations
