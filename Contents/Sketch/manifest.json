@@ -29,7 +29,8 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDrawBootstrapGridWithOuterGutter"
-            }
+            },
+            "description" : "Draws a bootstrap grid of 12 columns (with 15px outer gutter)."
         },
         {
             "name" : "Draw Bootstrap Grid (without outer gutter)",
@@ -38,7 +39,8 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDrawBootstrapGridWithoutOuterGutter"
-            }
+            },
+            "description" : "Draws a bootstrap grid of 12 columns (without any gutter)."
         },
         {
             "name" : "Toggle Visibility of Bootstrap Grid(s)",
@@ -47,7 +49,8 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onToggleVisibilityOfBootstrapGrids"
-            }
+            },
+            "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'B00T$TRAP-Grid')"
         },
         {
             "name" : "Increase selection by 1 column",
@@ -56,7 +59,8 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onIncreaseByOne"
-            }
+            },
+            "description" : "Increases every layer of selection by 1 column"
         },
         {
             "name" : "Decrease selection by 1 column",
@@ -65,7 +69,8 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDecreaseByOne"
-            }
+            },
+            "description" : "Decreases every layer of selection by 1 column"
         },
         {
             "name" : "Move selection left by 1 column width",
@@ -74,16 +79,18 @@
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onMoveLeftByOne"
-            }
+            },
+            "description" : "Moves every layer of selection by 1 column to the left"
         },
         {
-            "name" : "Move selection rigth by 1 column width",
+            "name" : "Move selection right by 1 column width",
             "identifier" : "moveRightByOne",
             "shortcut" : "ctrl shift →",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onMoveRightByOne"
-            }
+            },
+            "description" : "Moves every layer of selection by 1 column to the right"
         },
         {
             "name" : "Display Toolbar",
