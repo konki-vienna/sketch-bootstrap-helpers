@@ -176,6 +176,16 @@ function onIncreaseByOne(context) {
   changeWidthOfSelectedElement("increase", context);
 }
 
+//INCREASES SELECTION BY A CUSTOM COLUMN
+function onIncreaseCustomByOne(context) {
+  changeWidthOfSelectedElementByCustomColumn("increase", context);
+}
+
+//DECREASES SELECTION BY A CUSTOM COLUMN
+function onDecreaseCustomByOne(context) {
+  changeWidthOfSelectedElementByCustomColumn("decrease", context);
+}
+
 //MOVES SELECTION BY A COLUMN TO THE LEFT
 function onMoveLeftByOne(context) {
     moveSelectedElements("left", context);
@@ -214,13 +224,11 @@ function onInitialize2(context) {
   } else {
     //LOOK IF SOMETHING IS AN ARTBOARD OR AN B00T$TRAP-Grid
     for (var i = 0; i < selection.count(); i++) {
-      if ([selection objectAtIndex: i].class() == "MSArtboardGroup" || [selection objectAtIndex: i].name() == "B00T$TRAP-Grid") {
+      if ([selection objectAtIndex: i].class() == "MSArtboardGroup" || [selection objectAtIndex: i].name() == gridGroupName) {
           displayMessageToUser(context, "❌ Please do not select an artboard or a folder named B00T$TRAP-Grid. ❌");
           return false;
       }
     }
-
-
     return true;
   }
 }
@@ -241,7 +249,7 @@ function onInitialize(context) {
               displayMessageToUser(context, "❌ Please do not select an artboard. ❌");
               return false;
           }
-          if ([selection objectAtIndex: i].name() == "B00T$TRAP-Grid") {
+          if ([selection objectAtIndex: i].name() == gridGroupName) {
             hasBootstrapGrid = true;
             temp_i = i;
             break;
@@ -298,6 +306,104 @@ function findColumnWidth(shallBeIncreased, myElementWidth, myGridColumnWidth, my
     }
 }
 
+function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
+  var selection = context.selection;
+  var myGridFolder = findGridFolder(context);
+  if (myGridFolder == false) {
+    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' in this Artboard ❌");
+  } else {
+    var mySortedGrid_array = analyzeGrid(myGridFolder);
+
+    for (var j = 0; j < selection.count(); j++) {
+      //Align selected object(s) to column (if necessary)
+      [selection objectAtIndex: j].frame().x = findNearestColumnXPosition([selection objectAtIndex: j].frame().x(), myGridFolder.frame.x, mySortedGrid_array);
+
+      //Set new column width of selected object(s)
+      [selection objectAtIndex: j].frame().width = findNewColumnWidth(myValue, [selection objectAtIndex: j].frame().width(), mySortedGrid_array);
+    }
+  };
+}
+
+function findNearestColumnXPosition(myElementXPosition, myGridFolderXPosition, mySortedGrid_array) {
+  var index = mySortedGrid_array.length;
+  while (index <= mySortedGrid_array.length) {
+    if (myElementXPosition >= mySortedGrid_array[index-1][0]) {
+      return (myGridFolderXPosition + mySortedGrid_array[index-1][0]);
+    } else {
+      if (index > 1) {
+          index--;
+      }
+    }
+  }
+  return myElementXPosition;
+}
+
+function findNewColumnWidth(myValue, myElementWidth, mySortedGrid_array) {
+  var additionalSpace;
+  var possibleNewWidth;
+  var index;
+  if (myValue == "increase") {
+      index = 1;
+      while(index < mySortedGrid_array.length && myElementWidth >= mySortedGrid_array[index-1][0] + mySortedGrid_array[index-1][1]) {
+        index++;
+      }
+      possibleNewWidth = mySortedGrid_array[index-1][0] + mySortedGrid_array[index-1][1];
+  } else if (myValue == "decrease") {
+    index = mySortedGrid_array.length;
+    while (index > 1 && myElementWidth <= mySortedGrid_array[index-1][0] + mySortedGrid_array[index-1][1]) {
+      if (index > 1) {
+          index--;
+      }
+    }
+    possibleNewWidth = mySortedGrid_array[index-1][0] + mySortedGrid_array[index-1][1];
+  }
+  return possibleNewWidth;
+}
+
+function analyzeGrid(myGridFolder) {
+  var myGrid_array = new Array();
+  //Put Grid Data (x and width) in two dimensional array
+  for (var i=0; i<myGridFolder.layers.length; i++) {
+    myGrid_array.push([myGridFolder.layers[i].frame.x, myGridFolder.layers[i].frame.width]);
+  }
+  //Sort Grid Data (x positions) ascending
+  myGrid_array.sort(sortFunction);
+  function sortFunction(a, b) {
+      if (a[0] === b[0]) {
+          return 0;
+      }
+      else {
+          return (a[0] < b[0]) ? -1 : 1;
+      }
+  }
+  return myGrid_array;
+}
+
+
+function findGridFolder(context) {
+  if (onInitialize2(context)) {
+    var selection = context.selection;
+    var parent = [selection objectAtIndex: 0].parentGroup();
+
+    var parentContainsBootstrapGrid = false;
+    do {
+       for (var i=0; i<parent.treeAsDictionary().layers.length; i++) {
+         log(+ i + ", " + parent.class());
+         if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == gridGroupName) {
+             // CONTAINS GRID
+             parentContainsBootstrapGrid = true;
+             gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
+             gridColumnWidth = getColumnWidth(0);
+             return parent.treeAsDictionary().layers[i];
+         }
+       }
+       parent = parent.parentGroup();
+    } while (parentContainsBootstrapGrid = false || parent.class() != "MSPage");
+
+    return false;
+  }
+}
+
 function changeWidthOfSelectedElement(myValue, context) {
   if (onInitialize2(context)) {
     var selection = context.selection;
@@ -305,7 +411,7 @@ function changeWidthOfSelectedElement(myValue, context) {
 
     var parentContainsBootstrapGrid = false;
     for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
-      if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
+      if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == gridGroupName) {
         parentContainsBootstrapGrid = true;
 
         gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
@@ -324,24 +430,10 @@ function changeWidthOfSelectedElement(myValue, context) {
         }
       }
     } else {
-      displayMessageToUser(context, "❌ There has to be a B00T$TRAP-Grid Layer in the same folder as your selection. ❌");
+      displayMessageToUser(context, "❌ There has to be a '" + gridGroupName + "' layer in the same folder as your selection. ❌");
     }
     displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
   }
-
-  /*if (onInitialize(context)) {
-    var selection = context.selection;
-    for (var i = 0; i < selection.count(); i++) {
-      if (i != master.layerPosition) {
-        if (myValue == "increase") {
-          [selection objectAtIndex: i].frame().width = findColumnWidth(true, [selection objectAtIndex: i].frame().width(), gridColumnWidth, gridGutter);
-        } else if (myValue == "decrease") {
-          [selection objectAtIndex: i].frame().width = findColumnWidth(false, [selection objectAtIndex: i].frame().width(), gridColumnWidth, gridGutter);
-        }
-      }
-    }
-    displayMessageToUser(context, "✅ Selection " + myValue + "d by a single column (columnWidth: " + gridColumnWidth + ", gridGutter: " + gridGutter + " ✅) ");
-  }*/
 }
 
 function moveSelectedElements(myDirection, context) {
@@ -351,7 +443,7 @@ function moveSelectedElements(myDirection, context) {
 
       var parentContainsBootstrapGrid = false;
       for (var i=0; i<= parent.treeAsDictionary().layers.length; i++) {
-        if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == "B00T$TRAP-Grid") {
+        if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == gridGroupName) {
           parentContainsBootstrapGrid = true;
 
           gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;

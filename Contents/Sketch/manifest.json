@@ -55,7 +55,7 @@
         {
             "name" : "Increase selection by 1 column",
             "identifier" : "increaseByOne",
-            "shortcut" : "ctrl shift +",
+            "shortcut" : "",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onIncreaseByOne"
@@ -65,7 +65,7 @@
         {
             "name" : "Decrease selection by 1 column",
             "identifier" : "decreaseByOne",
-            "shortcut" : "ctrl shift -",
+            "shortcut" : "",
             "script" : "bootstrap_helpers.js",
             "handlers" : {
                 "run" : "onDecreaseByOne"
@@ -100,6 +100,26 @@
             "handlers" : {
                 "run" : "onToolbar"
             }
+        },
+        {
+            "name" : "Increase selection by 1 custom column",
+            "identifier" : "increaseCustomByOne",
+            "shortcut" : "ctrl shift +",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onIncreaseCustomByOne"
+            },
+            "description" : "Increases every layer of selection by 1 custom column"
+        },
+        {
+            "name" : "Decrease selection by 1 custom column",
+            "identifier" : "decreaseCustomByOne",
+            "shortcut" : "ctrl shift -",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onDecreaseCustomByOne"
+            },
+            "description" : "Decreases every layer of selection by 1 custom column"
         }
     ],
   "menu": {
@@ -112,7 +132,10 @@
         "increaseByOne",
         "decreaseByOne",
         "moveLeftByOne",
-        "moveRightByOne"
+        "moveRightByOne",
+        "-",
+        "increaseCustomByOne",
+        "decreaseCustomByOne"
     ]
   }
 }
