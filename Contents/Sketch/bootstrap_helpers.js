@@ -5,7 +5,7 @@ var bootstrapSize;
 var gridTotalWidth;
 var gridColumnWidth;
 var gridGutter = 15;
-var gridGroupName = "B00T$TRAP-Grid";
+var gridGroupName = "CU$T0M-GR1D";
 var myFillColor = "#FF33CC59"; //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
 var master;
 
@@ -14,7 +14,7 @@ var myDictionary = NSThread.mainThread().threadDictionary();
 function onPlayground(context) {
     //checkArtboardSettings(context);
 
-    if (onInitialize2(context)) {
+    if (onInitialize(context)) {
         log("onPlayground successfully executed. :)")
 
         //Sets the opacity of the sketch window to 50% (1 = 100%)
@@ -208,37 +208,138 @@ function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
   var selection = context.selection;
   var myGridFolder = findGridFolder(context);
   if (myGridFolder == false) {
-    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' in this Artboard ❌");
+    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌");
   } else {
+    var myMessageStatus = "okay";
     var mySortedGrid_array = analyzeGrid(myGridFolder);
 
+    var myTemp_x;
+    var myTemp_column;
     for (var j = 0; j < selection.count(); j++) {
       //Align selected object(s) to column (if necessary)
-      [selection objectAtIndex: j].frame().x = findNearestColumnXPosition([selection objectAtIndex: j].frame().x(), myGridFolder.frame.x, mySortedGrid_array);
+      var myFindNearestColumn = findNearestColumnXPosition([selection objectAtIndex: j], myGridFolder, mySortedGrid_array);
+      myTemp_x = myFindNearestColumn[0];
+      myTemp_column = myFindNearestColumn[1];
+      [selection objectAtIndex: j].frame().x = myTemp_x;
+      //RELOAD UI
+      context.document.reloadInspector();
+      //RESIZE ALL PARENT FOLDERS TO FIT
+      resizeAllParentFoldersToFit(context);
+
+      var myNumberOfCoveredColumns = getNumberOfCoveredColumns([selection objectAtIndex: j], myTemp_column, myGridFolder, mySortedGrid_array);
+      if (myValue == "increase") {
+        if ((myTemp_column - 1) + (myNumberOfCoveredColumns + 1) <= mySortedGrid_array.length) {
+          //log("Currently cover " + myNumberOfCoveredColumns + " columns (starting at column " + myTemp_column + "), should cover " + (myNumberOfCoveredColumns + 1) + " columns");
+          //Set new column width of selected object(s)
+          [selection objectAtIndex: j].frame().width = getColumnWidthByStartAndNumberOfColumns(myTemp_column, myNumberOfCoveredColumns + 1, mySortedGrid_array);
+        } else {
+          myMessageStatus = "tooWide"
+        }
+      } else if (myValue == "decrease") {
+        if ((myNumberOfCoveredColumns - 1) > 0) {
+          //log("Currently cover " + myNumberOfCoveredColumns + " columns (starting at column " + myTemp_column + "), should cover " + (myNumberOfCoveredColumns - 1) + " columns");
+          //Set new column width of selected object(s)
+          [selection objectAtIndex: j].frame().width = getColumnWidthByStartAndNumberOfColumns(myTemp_column, myNumberOfCoveredColumns - 1, mySortedGrid_array);
+
+        } else {
+          myMessageStatus = "tooSmall";
+        }
+      }
 
       //Set new column width of selected object(s)
-      [selection objectAtIndex: j].frame().width = findNewColumnWidth(myValue, [selection objectAtIndex: j].frame().width(), mySortedGrid_array);
+      [selection objectAtIndex: j].frame().width = getColumnWidthByStartAndNumberOfColumns
+
+      //RELOAD UI
+      context.document.reloadInspector();
+      //RESIZE ALL PARENT FOLDERS TO FIT
+      resizeAllParentFoldersToFit(context);
     }
-    displayMessageToUser(context, "✅ Object(s) " + myValue + "d by single column. ✅");
+    if (myMessageStatus == "okay") {
+      displayMessageToUser(context, "✅ Object(s) " + myValue + "d by single column. ✅");
+    } else if (myMessageStatus == "tooSmall") {
+      displayMessageToUser(context, "❌ Your selection cannot get any smaller. ❌");
+    } else if (myMessageStatus == "tooWide") {
+      displayMessageToUser(context, "❌ Your selection cannot get any wider. ❌");
+    }
+
   }
 }
 
-function findNearestColumnXPosition(myElementXPosition, myGridFolderXPosition, mySortedGrid_array) {
-  var index = mySortedGrid_array.length;
-  while (index <= mySortedGrid_array.length) {
-    if (myElementXPosition >= mySortedGrid_array[index-1][0]) {
-      return (myGridFolderXPosition + mySortedGrid_array[index-1][0]);
-    } else {
-      if (index > 1) {
-          index--;
-      }
+function getColumnWidthByStartAndNumberOfColumns(myStartColumn, myNumberOfColumns, mySortedGrid_array) {
+  if (myStartColumn == 0)
+  {
+    myStartColumn = 1;
+  }
+  var myColumnWidths = mySortedGrid_array[myStartColumn-1 + myNumberOfColumns-1][0] + mySortedGrid_array[myStartColumn-1 + myNumberOfColumns-1][1] - mySortedGrid_array[myStartColumn-1][0];
+  return myColumnWidths;
+}
+
+function getNumberOfCoveredColumns(myLayer, myStartColumn, myGridFolder, mySortedGrid_array) {
+  if (myStartColumn == 0)
+  {
+    myStartColumn = 1;
+  }
+  var myColumnWidths;
+  var myCoveredColumns = 0;
+  for (var i = myStartColumn - 1; i<mySortedGrid_array.length; i++) {
+    myColumnWidths = (mySortedGrid_array[i][0] + mySortedGrid_array[i][1] - mySortedGrid_array[myStartColumn - 1][0]);
+    myCoveredColumns++;
+    if (myLayer.frame().width() <= myColumnWidths) {
+      return myCoveredColumns;
     }
   }
-  return myElementXPosition;
+}
+
+function findNearestColumnXPosition(myLayer, myGridFolder, mySortedGrid_array) {
+  log("findNearestColumnXPosition");
+  var myCurrentPosition = myLayer.frame().x();
+  var myCurrentRelativePosition = getPositionRelativeToArtboard("x", myLayer);
+  var myGridFolderRelativePosition = getPositionRelativeToArtboard("x", myGridFolder);
+  var myLayersParentGroupRelativePosition;
+
+  if (myLayer.parentGroup().className() != "MSArtboardGroup") {
+    var myLayersParentGroupRelativePosition = getPositionRelativeToArtboard("x", myLayer.parentGroup());
+  } else {
+    myLayersParentGroupRelativePosition = 0;
+  }
+
+  var myColumnRelativePosition;
+  var myNewPosition;
+  for (var i=mySortedGrid_array.length; i>0; i--) {
+    if (myCurrentRelativePosition == (myGridFolderRelativePosition + mySortedGrid_array[i-1][0])) {
+      myNewPosition = myCurrentRelativePosition - myLayersParentGroupRelativePosition;
+      //log("myNewPosition == " + myNewPosition);
+      break;
+    } else if (myCurrentRelativePosition > (myGridFolderRelativePosition + mySortedGrid_array[i-1][0])) {
+      myColumnRelativePosition = getPositionRelativeToArtboard("x", myGridFolder.layers()[i-1]);
+      //log("myColumnRelativePosition: " + myColumnRelativePosition);
+      myNewPosition = myColumnRelativePosition - myLayersParentGroupRelativePosition;
+      //log("myNewPosition > " + myNewPosition);
+      break;
+    } else {
+      myColumnRelativePosition = getPositionRelativeToArtboard("x", myGridFolder.layers()[i-1]);
+      //log("myColumnRelativePosition: " + myColumnRelativePosition);
+      myNewPosition = myGridFolderRelativePosition - (myLayersParentGroupRelativePosition);
+    }
+  }
+  return [myNewPosition, i];
+}
+
+function getPositionRelativeToArtboard(myValue, myLayer) {
+  //myValue must be either "x" or "y"
+  return myLayer.absoluteRect()[myValue]() - getElementsArtboard(myLayer).frame()[myValue]();
+}
+
+function getElementsArtboard(myLayer) {
+  var myArtboard = myLayer;
+  log(myLayer.name());
+  do {
+     myArtboard = myArtboard.parentGroup();
+  } while (myArtboard.class() != "MSArtboardGroup");
+  return myArtboard;
 }
 
 function findNewColumnWidth(myValue, myElementWidth, mySortedGrid_array) {
-  //var additionalSpace;
   var possibleNewWidth;
   var index;
   if (myValue == "increase") {
@@ -277,37 +378,54 @@ function moveSelectedElementsByCustomColum(myDirection, context) {
   var selection = context.selection;
   var myGridFolder = findGridFolder(context);
   if (myGridFolder == false) {
-    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' in this Artboard ❌");
+    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌");
   } else {
     var mySortedGrid_array = analyzeGrid(myGridFolder);
+    var myTemp_x;
+    var myTemp_column;
+    var myXPositionOffset;
+    var myMessageStatus = "okay";
 
     for (var j = 0; j < selection.count(); j++) {
-      //Set new column x-Position of selected object(s)
-      [selection objectAtIndex: j].frame().x = findNewColumnPosition(myDirection, [selection objectAtIndex: j].frame().x(), myGridFolder.frame.x, mySortedGrid_array);
-    }
-    displayMessageToUser(context, "✅ Object(s) moved to the " + myDirection + " by single column. ✅");
-  }
-}
+      var myFindNearestColumn = findNearestColumnXPosition([selection objectAtIndex: j], myGridFolder, mySortedGrid_array);
+      myTemp_x = myFindNearestColumn[0];
+      myTemp_column = myFindNearestColumn[1];
+      [selection objectAtIndex: j].frame().x = myTemp_x;
+      //RELOAD UI
+      context.document.reloadInspector();
+      //RESIZE ALL PARENT FOLDERS TO FIT
+      resizeAllParentFoldersToFit(context);
 
-function findNewColumnPosition(myDirection, myElementXPosition, myGridFolderXPosition, mySortedGrid_array) {
-  var possibleNewXPosition;
-  var index;
-  if (myDirection == "right") {
-      index = 1;
-      while(index < mySortedGrid_array.length && myElementXPosition >= myGridFolderXPosition + mySortedGrid_array[index-1][0]) {
-        index++;
-      }
-      possibleNewWidth = myGridFolderXPosition + mySortedGrid_array[index-1][0];
-  } else if (myDirection == "left") {
-      index = mySortedGrid_array.length;
-      while (index > 1 && myElementXPosition <= myGridFolderXPosition + mySortedGrid_array[index-1][0]) {
-        if (index > 1) {
-            index--;
+      if (myDirection == "right") {
+        if (myTemp_column != mySortedGrid_array.length) {
+          myXPositionOffset = mySortedGrid_array[(myTemp_column)][0] - mySortedGrid_array[(myTemp_column - 1)][0];
+          [selection objectAtIndex: j].frame().x = [selection objectAtIndex: j].frame().x() + myXPositionOffset;
+        } else {
+          var myMessageStatus = "tooFarRight";
+        }
+      } else if (myDirection == "left") {
+        if (myTemp_column != 1) {
+          myXPositionOffset = mySortedGrid_array[(myTemp_column-2)][0] - mySortedGrid_array[(myTemp_column - 1)][0];
+          [selection objectAtIndex: j].frame().x = [selection objectAtIndex: j].frame().x() + myXPositionOffset;
+        } else {
+          var myMessageStatus = "tooFarLeft";
         }
       }
-      possibleNewWidth = (myGridFolderXPosition + mySortedGrid_array[index-1][0]);
+
+      //RELOAD UI
+      context.document.reloadInspector();
+
+      //RESIZE ALL PARENT FOLDERS TO FIT
+      resizeAllParentFoldersToFit(context);
+    }
+    if (myMessageStatus == "okay") {
+      displayMessageToUser(context, "✅ Object(s) moved to the " + myDirection + " by single column. ✅");
+    } else if (myMessageStatus == "tooFarLeft") {
+      displayMessageToUser(context, "❌ You cannot move your selection any further to the left. ❌");
+    } else if (myMessageStatus == "tooFarRight") {
+      displayMessageToUser(context, "❌ You cannot move your selection any further to the right. ❌");
+    }
   }
-  return possibleNewWidth;
 }
 /*----------------------------------*/
 //MOVE SELECTED ELEMENT(S) - END
@@ -363,7 +481,7 @@ function onToggleVisibilityOfBootstrapGrids(context) {
 /*-----------------------------------
 //HELPERS - START
 -----------------------------------*/
-function onInitialize2(context) {
+function onInitialize(context) {
   var selection = context.selection;
   if ([selection count] == 0) {
     displayMessageToUser(context, "❌ Please select one or more elements ❌");
@@ -398,8 +516,8 @@ function getColumnWidth(mySelectionCount) {
 function analyzeGrid(myGridFolder) {
   var myGrid_array = new Array();
   //Put Grid Data (x and width) in two dimensional array
-  for (var i=0; i<myGridFolder.layers.length; i++) {
-    myGrid_array.push([myGridFolder.layers[i].frame.x, myGridFolder.layers[i].frame.width]);
+  for (var i=0; i<myGridFolder.layers().length; i++) {
+    myGrid_array.push([myGridFolder.layers()[i].frame().x(), myGridFolder.layers()[i].frame().width()]);
   }
   //Sort Grid Data (x positions) ascending
   myGrid_array.sort(sortFunction);
@@ -415,26 +533,42 @@ function analyzeGrid(myGridFolder) {
 }
 
 function findGridFolder(context) {
-  if (onInitialize2(context)) {
+  if (onInitialize(context)) {
     var selection = context.selection;
     var parent = [selection objectAtIndex: 0].parentGroup();
 
     var parentContainsBootstrapGrid = false;
     do {
-       for (var i=0; i<parent.treeAsDictionary().layers.length; i++) {
-         //log(+ i + ", " + parent.class());
-         if (parent.treeAsDictionary().layers[i].treeAsDictionary().name == gridGroupName) {
+       for (var i=0; i<parent.layers().length; i++) {
+         if (parent.layers()[i].name() == gridGroupName) {
              // CONTAINS GRID
              parentContainsBootstrapGrid = true;
-             gridTotalWidth = parent.treeAsDictionary().layers[i].treeAsDictionary().frame.width;
+             gridTotalWidth = parent.layers()[i].frame().width();
              gridColumnWidth = getColumnWidth(0);
-             return parent.treeAsDictionary().layers[i];
+             return parent.layers()[i];
          }
        }
        parent = parent.parentGroup();
     } while (parentContainsBootstrapGrid = false || parent.class() != "MSPage");
 
     return false;
+  }
+}
+
+function resizeAllParentFoldersToFit(context) {
+  if (onInitialize(context)) {
+    var selection = context.selection;
+    var parent = [selection objectAtIndex: 0].parentGroup();
+    //log(parent.frame().width());
+    parent.resizeToFitChildrenWithOption(1);
+    //log(parent.name());
+    do {
+       parent = parent.parentGroup();
+
+       //log(parent.frame().width());
+       parent.resizeToFitChildrenWithOption(1);
+       //log(parent.frame().width());
+    } while (parent.class() != "MSPage");
   }
 }
 /*-----------------------------------
