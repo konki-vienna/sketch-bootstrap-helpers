@@ -53,46 +53,6 @@
             "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'B00T$TRAP-Grid')"
         },
         {
-            "name" : "Increase selection by 1 column",
-            "identifier" : "increaseByOne",
-            "shortcut" : "ctrl shift +",
-            "script" : "bootstrap_helpers.js",
-            "handlers" : {
-                "run" : "onIncreaseByOne"
-            },
-            "description" : "Increases every layer of selection by 1 column"
-        },
-        {
-            "name" : "Decrease selection by 1 column",
-            "identifier" : "decreaseByOne",
-            "shortcut" : "ctrl shift -",
-            "script" : "bootstrap_helpers.js",
-            "handlers" : {
-                "run" : "onDecreaseByOne"
-            },
-            "description" : "Decreases every layer of selection by 1 column"
-        },
-        {
-            "name" : "Move selection left by 1 column width",
-            "identifier" : "moveLeftByOne",
-            "shortcut" : "ctrl shift ←",
-            "script" : "bootstrap_helpers.js",
-            "handlers" : {
-                "run" : "onMoveLeftByOne"
-            },
-            "description" : "Moves every layer of selection by 1 column to the left"
-        },
-        {
-            "name" : "Move selection right by 1 column width",
-            "identifier" : "moveRightByOne",
-            "shortcut" : "ctrl shift →",
-            "script" : "bootstrap_helpers.js",
-            "handlers" : {
-                "run" : "onMoveRightByOne"
-            },
-            "description" : "Moves every layer of selection by 1 column to the right"
-        },
-        {
             "name" : "Display Toolbar",
             "identifier" : "toolbar",
             "shortcut" : "ctrl 1",
@@ -100,6 +60,52 @@
             "handlers" : {
                 "run" : "onToolbar"
             }
+        },
+        {
+            "name" : "Increase selection by 1 custom column",
+            "identifier" : "increaseCustomByOne",
+            "shortcut" : "ctrl shift +",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onIncreaseCustomByOne"
+            },
+            "description" : "Increases every layer of selection by 1 custom column"
+        },
+        {
+            "name" : "Decrease selection by 1 custom column",
+            "identifier" : "decreaseCustomByOne",
+            "shortcut" : "ctrl shift -",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onDecreaseCustomByOne"
+            },
+            "description" : "Decreases every layer of selection by 1 custom column"
+        },
+        {
+            "name" : "Move selection to the right by 1 custom column width",
+            "identifier" : "moveRightCustomByOne",
+            "shortcut" : "ctrl shift →",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveRightCustomByOne"
+            },
+            "description" : "Moves every layer of selection to the right by 1 custom column"
+        },
+        {
+            "name" : "Move selection to the left by 1 custom column width",
+            "identifier" : "moveLeftCustomByOne",
+            "shortcut" : "ctrl shift ←",
+            "script" : "bootstrap_helpers.js",
+            "handlers" : {
+                "run" : "onMoveLeftCustomByOne"
+            },
+            "description" : "Moves every layer of selection to the left by 1 custom column"
+        },
+        {
+            "name": "Documention",
+            "identifier": "linkHelp",
+            "handler": "linkHelp",
+            "script": "links.sketchscript"
         }
     ],
   "menu": {
@@ -109,10 +115,17 @@
         "drawGridWithoutGutter",
         "toggleVisibility",
         "-",
-        "increaseByOne",
-        "decreaseByOne",
-        "moveLeftByOne",
-        "moveRightByOne"
+        "increaseCustomByOne",
+        "decreaseCustomByOne",
+        "moveRightCustomByOne",
+        "moveLeftCustomByOne",
+        "-",
+        {
+          "title": "Help",
+          "items": [
+            "linkHelp"
+          ]
+        }
     ]
   }
 }

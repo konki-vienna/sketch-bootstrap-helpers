@@ -1,0 +1,8 @@
+function openURL(url){
+  var nsurl = NSURL.URLWithString(url + '?ref=smp');
+  NSWorkspace.sharedWorkspace().openURL(nsurl)
+}
+
+function linkHelp(){
+  openURL('https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md');
+}
