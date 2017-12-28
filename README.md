@@ -7,17 +7,21 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 ## Functionality
 
 ### 1. Draw a bootstrap grid
-![Draw Grid](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/createGrid.gif "Draw Grid")
+![Draw Grid](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/createGrid2.gif "Draw Grid")
 1. Select an artboard or layer
 2. Select `Grid without outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>0</kbd>) or `Grid with outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>CMD</kbd> + <kbd>0</kbd>)  
 
 ### 2. Move and in-/decrease width of layers according to the bootstrap grid
-General idea: when you want to move or de-/increase the size of one ore several selected objects according to a Bootstrap layer, you have to take into account that the selected layer(s) relate to a folder with a Bootstrap grid ("B00T$TRAP-Grid") that is a sibling of the selected layer(s).
-![Move or de-/increase layer(s)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElement.gif "Move or de-/increase layer(s)")
+General idea: To move or in-/decrease the with of a selected layer, you have to have a folder named 'CU$T0M-GR1D' with a grid (=some rectanlges) as a sibling or ancestor of the selected layer(s).
+<br />
+![Move or de-/increase layer(s)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElement2.gif "Move or de-/increase layer(s)")
 * Move selected layer(s) left (Shortcut: <kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>←</kbd>)
 * Move selected layer(s) right (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>→</kbd>)
 * Increase selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>+</kbd>)
 * Decrease selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>-</kbd>)
+<br />
+You can draw a custom grid (within a folder named 'CU$T0M-GR1D') as well:
+![Move or de-/increase layer(s) with custom grid)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElementWithCustomGrid.gif "Move or de-/increase layer(s) with custom grid")
 
 ### 3. Toggle visibility of the bootstrap grid(s)
 * Un-/Hide (`CMD` + <kbd>Shift</kbd>+ <kbd>1</kbd>)

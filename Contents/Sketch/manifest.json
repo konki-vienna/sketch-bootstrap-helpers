@@ -100,6 +100,12 @@
                 "run" : "onMoveLeftCustomByOne"
             },
             "description" : "Moves every layer of selection to the left by 1 custom column"
+        },
+        {
+            "name": "Documention",
+            "identifier": "linkHelp",
+            "handler": "linkHelp",
+            "script": "links.sketchscript"
         }
     ],
   "menu": {
@@ -112,7 +118,14 @@
         "increaseCustomByOne",
         "decreaseCustomByOne",
         "moveRightCustomByOne",
-        "moveLeftCustomByOne"
+        "moveLeftCustomByOne",
+        "-",
+        {
+          "title": "Help",
+          "items": [
+            "linkHelp"
+          ]
+        }
     ]
   }
 }
