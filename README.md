@@ -21,7 +21,7 @@ General idea: To move or in-/decrease the with of a selected layer, you have to 
 * Decrease selected layer(s) in width (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>-</kbd>)
 <br />
 You can draw a custom grid (within a folder named 'CU$T0M-GR1D') as well:
-![Move or de-/increase layer(s) with custom grid)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElementWithCustomGrid.gif "Move or de-/increase layer(s) with custom grid")
+![Move or de-/increase layer(s) with custom grid)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElementWithCustomGrid.gif "Move or de-/increase layers with custom grid")
 
 ### 3. Toggle visibility of the bootstrap grid(s)
 * Un-/Hide (`CMD` + <kbd>Shift</kbd>+ <kbd>1</kbd>)
