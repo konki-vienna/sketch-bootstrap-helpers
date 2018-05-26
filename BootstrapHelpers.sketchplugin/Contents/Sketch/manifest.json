@@ -18,7 +18,7 @@
             "handlers" : {
                 "run" : "onPlayground",
                 "actions": {
-                    "LayersMoved.finish": "LayersMoved",
+                    "LayersMoved.finish": "LayersMoved"
                 }
             }
         },
