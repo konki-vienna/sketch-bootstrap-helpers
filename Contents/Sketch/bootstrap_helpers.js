@@ -38,10 +38,11 @@ function onDrawBootstrapGridWithoutOuterGutter(context) {
     drawBootstrapGrid(context, false);
 }
 
-function drawBootstrapGrid(context, myHasOuterGutter) {
+function drawBootstrapGrid (context, myHasOuterGutter) {
     var selection = context.selection;
 
     if ([selection count] == 1) {
+      log("selection count: " + [selection count]);
       master = setMaster([selection objectAtIndex: 0]);
       if ([selection objectAtIndex: 0].class() == "MSArtboardGroup") {
           myHasOuterGutter = true; //in case an Artboard is selected, there shall always be a gutter
@@ -142,13 +143,14 @@ function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMaster) {
 }
 
 function drawRect(myFillColor, myName, myObj, myCornerRadius) {
-    if (myCornerRadius == undefined) myCornerRadius = 0;
+  if (myCornerRadius == undefined) myCornerRadius = 0;
 
-    var rectShape;
-    rectShape = MSRectangleShape.alloc().init();
-    rectShape.frame = MSRect.rectWithRect(NSMakeRect(myObj.x, myObj.y, myObj.width, myObj.height));
-    rectShape.cornerRadiusFloat = myCornerRadius;
-
+  var rectShape;
+  rectShape = MSRectangleShape.alloc().init();
+  rectShape.frame = MSRect.rectWithRect(NSMakeRect(myObj.x, myObj.y, myObj.width, myObj.height));
+  rectShape.cornerRadiusFloat = myCornerRadius;
+  // SKETCH 52.x OR LOWER
+  if (typeof MSShapeGroup.shapeWithPath === "function") {
     var shapeGroup = MSShapeGroup.shapeWithPath(rectShape);
     var fill = shapeGroup.style().addStylePartOfType(0);
     fill.color = MSImmutableColor.colorWithSVGString(myFillColor);
@@ -157,6 +159,18 @@ function drawRect(myFillColor, myName, myObj, myCornerRadius) {
     shapeGroup.setName(myName);
 
     return shapeGroup;
+  }
+  //SKETCH 53 OR HIGHER
+  else {
+    var fill = rectShape.style().addStylePartOfType(0);
+    fill.color = MSImmutableColor.colorWithSVGString(myFillColor);
+
+    rectShape.frame().constrainProportions = false; // Set to `true` if you want shape to be constrained.
+    rectShape.setName(myName);
+
+    return rectShape;
+  }
+  return;
 }
 
 function setGridSettings(myReference_obj, mySelectionCount) {
