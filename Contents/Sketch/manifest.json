@@ -1,12 +1,13 @@
 {
     "name": "Bootstrap Helpers",
-    "description": "Some tools to help working with bootstrap grids",
+    "description": "Some tools to help working with vertical grids",
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md",
     "version": "0.2.1",
     "identifier": "at.demblin.sketch-bootstrap-helpers",
     "appcast": "https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/appcast.xml",
+    "icon": "icon.png",
     "compatibleVersion": "4.8",
     "bundleVersion": 1,
     "commands": [
