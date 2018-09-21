@@ -1,5 +1,5 @@
-# Bootstrap helpers :gem:
-A plugin to help working with bootstrap grids in Sketch
+# (Bootstrap) grid helpers :gem:
+A plugin to help working with vertical grids in Sketch
 
 ## Download
 Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/master/versions), extract zip-file and double click on 'BootstrapHelpers.sketchplugin' or install with Sketch Runner.
@@ -11,7 +11,7 @@ Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/ma
 1. Select an artboard or layer
 2. Select `Grid without outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>0</kbd>) or `Grid with outer gutter` (<kbd>CTRL</kbd> + <kbd>Shift</kbd>+ <kbd>CMD</kbd> + <kbd>0</kbd>)  
 
-### 2. Move and in-/decrease width of layers according to the bootstrap grid
+### 2. Move and in-/decrease width of layers according to the vertical grid
 General idea: To move or in-/decrease the with of a selected layer, you have to have a folder named 'CU$T0M-GR1D' with a grid (=some rectanlges) as a sibling or ancestor of the selected layer(s).
 
 ![Move or de-/increase layer(s)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElement2.gif "Move or de-/increase layer(s)")
@@ -24,7 +24,7 @@ You can draw a custom grid (within a folder named 'CU$T0M-GR1D') as well:
 
 ![Move or de-/increase layer(s) with custom grid)](https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/img/moveIncreaseElementWithCustomGrid.gif "Move or de-/increase layers with custom grid")
 
-### 3. Toggle visibility of the bootstrap grid(s)
+### 3. Toggle visibility of the grid(s)
 * Un-/Hide (`CMD` + <kbd>Shift</kbd>+ <kbd>1</kbd>)
 
 ## Ideas for improvement
@@ -37,7 +37,7 @@ You can draw a custom grid (within a folder named 'CU$T0M-GR1D') as well:
 * ...
 
 ## Compatibility
-The plugin is compatible with Sketch 4+.
+The plugin is compatible with Sketch 53.x
 
 <a href="http://bit.ly/SketchRunnerWebsite">
     <img height="40" width="160" src="http://bit.ly/RunnerBadgeBlue">
@@ -45,7 +45,6 @@ The plugin is compatible with Sketch 4+.
 
 ## Donations
 If this project helps you, you can invite me on a :coffee: ;) Or share it via social media.
-
 Thank you!
 
 [![paypal](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=L85KKXEFFH6HE)
