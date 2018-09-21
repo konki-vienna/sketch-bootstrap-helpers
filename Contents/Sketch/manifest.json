@@ -1,10 +1,10 @@
 {
     "name": "Bootstrap Helpers",
-    "description": "Some tools to help working with vertical grids",
+    "description": "Some tools to help working with vertical grids. Create bootstrap or custom grids and align or adjust width of shapes, symbols or groups to the grid.",
     "author": "Konstantin Demblin",
     "authorEmail": "Konstantin.Demblin@gmail.com",
     "homepage": "https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "identifier": "at.demblin.sketch-bootstrap-helpers",
     "appcast": "https://github.com/konki-vienna/sketch-bootstrap-helpers/raw/master/appcast.xml",
     "icon": "icon.png",
