@@ -2,7 +2,7 @@
 A plugin to help working with vertical grids in Sketch
 
 ## Download
-Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/tree/master/versions), extract zip-file and double click on 'BootstrapHelpers.sketchplugin' or install with Sketch Runner.
+Download [here](https://github.com/konki-vienna/sketch-bootstrap-helpers/releases), extract zip-file and double click on 'BootstrapHelpers.sketchplugin' or install with Sketch Runner.
 
 ## Functionality
 
