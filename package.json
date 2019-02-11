@@ -1,0 +1,28 @@
+{
+  "name": "sketch-bootstrap-helpers",
+  "version": "0.1.0",
+  "engines": {
+    "sketch": ">=3.0"
+  },
+  "skpm": {
+    "name": "sketch-bootstrap-helpers",
+    "manifest": "src/manifest.json",
+    "main": "sketch-bootstrap-helpers.sketchplugin",
+    "assets": [
+      "assets/**/*"
+    ]
+  },
+  "assets": [
+    "assets/**/*"
+  ],
+  "scripts": {
+    "build": "skpm-build",
+    "watch": "skpm-build --watch",
+    "start": "skpm-build --watch --run",
+    "postinstall": "npm run build && skpm-link"
+  },
+  "devDependencies": {
+    "@skpm/builder": "^0.5.11"
+  },
+  "author": "Konstantin Demblin <konstantin.demblin@beeone.at>"
+}
