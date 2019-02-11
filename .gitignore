@@ -1,2 +1,7 @@
 
 BootstrapHelpers.sketchplugin/
+assets/.DS_Store
+.DS_Store
+node_modules/*
+package-lock.json
+sketch-bootstrap-helpers.sketchplugin/*
