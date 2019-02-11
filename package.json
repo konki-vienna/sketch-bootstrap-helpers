@@ -24,5 +24,9 @@
   "devDependencies": {
     "@skpm/builder": "^0.5.11"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/konki-vienna/sketch-bootstrap-helpers.git"
+},
   "author": "Konstantin Demblin <konstantin.demblin@beeone.at>"
 }
