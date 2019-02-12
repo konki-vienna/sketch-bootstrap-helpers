@@ -28,6 +28,7 @@
     "type": "git",
     "url": "https://github.com/konki-vienna/sketch-bootstrap-helpers.git"
   },
+  "license": "MIT",
   "author": "Konstantin Demblin <konstantin.demblin@beeone.at>",
   "dependencies": {
     "sketch-module-google-analytics": "0.1.4"
