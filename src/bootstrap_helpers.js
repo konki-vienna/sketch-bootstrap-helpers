@@ -1,4 +1,6 @@
 import { displayMessageToUser } from './common';
+import myGoogleAnalytics from 'sketch-module-google-analytics';
+myGoogleAnalytics.kUUIDKey = "UA-134337717-1"
 
 const sketch = require('sketch'),
       UI = require('sketch/ui')
@@ -13,6 +15,7 @@ var document = require('sketch/dom').getSelectedDocument(),
     master,
     myDictionary = NSThread.mainThread().threadDictionary(),
     debugMode = false
+
 
 /*----------------------------------*/
 //DRAWS A BOOTSTRAP GRID - START
