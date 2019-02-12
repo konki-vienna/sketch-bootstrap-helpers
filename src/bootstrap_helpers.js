@@ -68,6 +68,14 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
 
       }
       displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter)
+      
+      if (!debugMode) {
+        if (myHasOuterGutter) {
+          googleAnalytics(context,"drawBootstrapGrid","withOuterGutter")
+        } else {
+          googleAnalytics(context,"drawBootstrapGrid","withoutOuterGutter")
+        }
+      }
     } else {
       displayMessageToUser(context, "❌ Please select a single element. ❌")
     }
@@ -220,10 +228,13 @@ export function onDecreaseCustomByOne(context) {
 }
 
 export function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
-  if (debugMode) console.log("changeWidthOfSelectedElementByCustomColumn")
+  if (debugMode) {
+    console.log("changeWidthOfSelectedElementByCustomColumn")
+  } else {
+    googleAnalytics(context,"changeWidthOfSelectedElements",myValue)
+  }
   var selection = context.selection
   var myGridFolder = findGridFolder(context)
-  if (debugMode) console.log("KONSTANTIN")
   if (debugMode) console.log(myGridFolder)
   if (myGridFolder == false) {
     displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌")
@@ -399,7 +410,11 @@ export function onMoveLeftCustomByOne(context) {
 }
 
 export function moveSelectedElementsByCustomColum(myDirection, context) {
-  if (debugMode) console.log("moveSelectedElementsByCustomColum")
+  if (debugMode) {
+    console.log("moveSelectedElementsByCustomColum")
+  } else {
+    googleAnalytics(context,"moveSelectedElement",myDirection)
+  }
   var selection = context.selection
   var selectedCount = selection.length
   var myGridFolder = findGridFolder(context)
@@ -462,7 +477,11 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
 //TOGGLE VISIBILITY OF ALL BOOTSTRAP GRIDS ON THAT PAGE - START
 /*-----------------------------------------------------------*/
 export function onToggleVisibilityOfBootstrapGrids(context) {
-  if (debugMode) console.log("onToggleVisibilityOfBootstrapGrids")
+  if (debugMode) {
+    console.log("onToggleVisibilityOfBootstrapGrids")
+  } else {
+    googleAnalytics(context,"toggleVisibility","toggleVisibility")
+  }
   var subSetOfLayers_array = document.getLayersNamed(gridGroupName)
 
   if (subSetOfLayers_array.length) {
@@ -486,8 +505,9 @@ export function onToggleVisibilityOfBootstrapGrids(context) {
 /*-----------------------------------------------------------*/
 //OPENS READ ME PAGE ON GITHUB.COM - START
 /*-----------------------------------------------------------*/
-export function onDocumentation() {
-  openUrl("https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md");
+export function onDocumentation(context) {
+  openUrl("https://github.com/konki-vienna/sketch-bootstrap-helpers/blob/master/README.md")
+  if (!debugMode) googleAnalytics(context,"documentation","documentation")
 }
 /*-----------------------------------------------------------*/
 //OPENS READ ME PAGE ON GITHUB.COM - END
@@ -599,4 +619,54 @@ export function resizeAllParentFoldersToFit(context) {
 }
 /*-----------------------------------
 //HELPERS - END
+-----------------------------------*/
+
+/*-----------------------------------
+//GOOGLE ANALYTICS - START
+-----------------------------------*/
+function googleAnalytics(context,category,action,label,value) {
+	var trackingID = "UA-134337717-1",
+		uuidKey = "google.analytics.uuid",
+		uuid = NSUserDefaults.standardUserDefaults().objectForKey(uuidKey);
+
+	if (!uuid) {
+		uuid = NSUUID.UUID().UUIDString();
+		NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
+	}
+
+	var url = "https://www.google-analytics.com/collect?v=1";
+	// Tracking ID
+	url += "&tid=" + trackingID;
+	// Source
+	url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
+	// Client ID
+	url += "&cid=" + uuid;
+	// pageview, screenview, event, transaction, item, social, exception, timing
+	url += "&t=event";
+	// App Name
+	url += "&an=" + encodeURI(context.plugin.name());
+	// App ID
+	url += "&aid=" + context.plugin.identifier();
+	// App Version
+	url += "&av=" + context.plugin.version();
+	// Event category
+	url += "&ec=" + encodeURI(category);
+	// Event action
+	url += "&ea=" + encodeURI(action);
+	// Event label
+	if (label) {
+		url += "&el=" + encodeURI(label);
+	}
+	// Event value
+	if (value) {
+		url += "&ev=" + encodeURI(value);
+	}
+
+	var session = NSURLSession.sharedSession(),
+		task = session.dataTaskWithURL(NSURL.URLWithString(NSString.stringWithString(url)));
+
+	task.resume();
+}
+/*-----------------------------------
+//GOOGLE ANALYTICS - END
 -----------------------------------*/
