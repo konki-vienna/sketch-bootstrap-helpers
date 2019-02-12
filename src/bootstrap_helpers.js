@@ -24,15 +24,15 @@ export function onDrawBootstrapGridWithOuterGutter () {
 }
 
 export function onDrawBootstrapGridWithoutOuterGutter() {
-  console.log("onDrawBootstrapGridWithoutOuterGutter")
+  if (debugMode) console.log("onDrawBootstrapGridWithoutOuterGutter")
   drawBootstrapGrid(context, false)
 }
 
 export function drawBootstrapGrid (context, myHasOuterGutter) {
-  console.log("drawBootstrapGrid")
+  if (debugMode) console.log("drawBootstrapGrid")
   var selection = context.selection //document.selectedLayers
-  //console.log(selection)
-  //console.log(context.selection)
+  //if (debugMode) console.log(selection)
+  //if (debugMode) console.log(context.selection)
   var selectedCount = selection.length
 
     if (selectedCount == 1) {
@@ -74,7 +74,7 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
 }
 
 export function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
-  console.log("drawGrid")
+  if (debugMode) console.log("drawGrid")
   //CREATE GRID
   var rectShape
   var tempRect
@@ -110,7 +110,7 @@ export function drawGrid(myMaster, myMasterIsArtboard, myHasOuterGutter) {
 }
 
 export function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMaster) {
-  console.log("groupLayers")
+  if (debugMode) console.log("groupLayers")
   //CREATE GROUP
   var groupLayer = MSLayerGroup.new()
   groupLayer.name = myGroupName
@@ -139,7 +139,7 @@ export function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMa
 }
 
 export function drawRect(myFillColor, myName, myObj, myCornerRadius) {
-  console.log("drawRect")
+  if (debugMode) console.log("drawRect")
   if (myCornerRadius == undefined) myCornerRadius = 0
 
   var rectShape
@@ -171,7 +171,7 @@ export function drawRect(myFillColor, myName, myObj, myCornerRadius) {
 }
 
 export function setGridSettings(myReference_obj, mySelectionCount) {
-  console.log("setGridSettings")
+  if (debugMode) console.log("setGridSettings")
   if (myReference_obj.width > 0 && myReference_obj.width <= 575) {
       bootstrapSize = "xs";
       gridTotalWidth = myReference_obj.width;
@@ -192,7 +192,7 @@ export function setGridSettings(myReference_obj, mySelectionCount) {
 }
 
 export function setMaster(myElement, myLayerNumber) {
-  console.log("setMaster")
+  if (debugMode) console.log("setMaster")
   var temp = new Object()
   temp.element = myElement
   temp.name = temp.element.name()
@@ -209,22 +209,22 @@ export function setMaster(myElement, myLayerNumber) {
 /*--------------------------------------------*/
 //INCREASES SELECTION BY A CUSTOM COLUMN
 export function onIncreaseCustomByOne(context) {
-  console.log("onIncreaseCustomByOne")
+  if (debugMode) console.log("onIncreaseCustomByOne")
   changeWidthOfSelectedElementByCustomColumn("increase", context)
 }
 
 //DECREASES SELECTION BY A CUSTOM COLUMN
 export function onDecreaseCustomByOne(context) {
-  console.log("onDecreaseCustomByOne")
+  if (debugMode) console.log("onDecreaseCustomByOne")
   changeWidthOfSelectedElementByCustomColumn("decrease", context)
 }
 
 export function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
-  console.log("changeWidthOfSelectedElementByCustomColumn")
+  if (debugMode) console.log("changeWidthOfSelectedElementByCustomColumn")
   var selection = context.selection
   var myGridFolder = findGridFolder(context)
-  console.log("KONSTANTIN")
-  console.log(myGridFolder)
+  if (debugMode) console.log("KONSTANTIN")
+  if (debugMode) console.log(myGridFolder)
   if (myGridFolder == false) {
     displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌")
   } else {
@@ -283,7 +283,7 @@ export function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
 }
 
 export function getColumnWidthByStartAndNumberOfColumns(myStartColumn, myNumberOfColumns, mySortedGrid_array) {
-  console.log("getColumnWidthByStartAndNumberOfColumns")
+  if (debugMode) console.log("getColumnWidthByStartAndNumberOfColumns")
   if (myStartColumn == 0)
   {
     myStartColumn = 1
@@ -293,7 +293,7 @@ export function getColumnWidthByStartAndNumberOfColumns(myStartColumn, myNumberO
 }
 
 export function getNumberOfCoveredColumns(myLayer, myStartColumn, myGridFolder, mySortedGrid_array) {
-  console.log("getNumberOfCoveredColumns")
+  if (debugMode) console.log("getNumberOfCoveredColumns")
   if (myStartColumn == 0)
   {
     myStartColumn = 1;
@@ -310,7 +310,7 @@ export function getNumberOfCoveredColumns(myLayer, myStartColumn, myGridFolder, 
 }
 
 export function findNearestColumnXPosition(myLayer, myGridFolder, mySortedGrid_array) {
-  console.log("findNearestColumnXPosition")
+  if (debugMode) console.log("findNearestColumnXPosition")
   var myCurrentPosition = myLayer.frame().x()
   var myCurrentRelativePosition = getPositionRelativeToArtboard("x", myLayer)
   var myGridFolderRelativePosition = getPositionRelativeToArtboard("x", myGridFolder)
@@ -345,13 +345,13 @@ export function findNearestColumnXPosition(myLayer, myGridFolder, mySortedGrid_a
 }
 
 export function getPositionRelativeToArtboard(myValue, myLayer) {
-  console.log("getPositionRelativeToArtboard")
+  if (debugMode) console.log("getPositionRelativeToArtboard")
   //myValue must be either "x" or "y"
   return myLayer.absoluteRect()[myValue]() - getElementsArtboard(myLayer).frame()[myValue]()
 }
 
 export function getElementsArtboard(myLayer) {
-  console.log("getElementsArtboard")
+  if (debugMode) console.log("getElementsArtboard")
   var myArtboard = myLayer
   log(myLayer.name())
   do {
@@ -361,7 +361,7 @@ export function getElementsArtboard(myLayer) {
 }
 
 export function findNewColumnWidth(myValue, myElementWidth, mySortedGrid_array) {
-  console.log("findNewColumnWidth")
+  if (debugMode) console.log("findNewColumnWidth")
   var possibleNewWidth
   var index
   if (myValue == "increase") {
@@ -389,17 +389,17 @@ export function findNewColumnWidth(myValue, myElementWidth, mySortedGrid_array) 
 //MOVE SELECTED ELEMENT(S) - START
 /*----------------------------------*/
 export function onMoveRightCustomByOne(context) {
-  console.log("onMoveRightCustomByOne")
+  if (debugMode) console.log("onMoveRightCustomByOne")
   moveSelectedElementsByCustomColum("right", context)
 }
 
 export function onMoveLeftCustomByOne(context) {
-  console.log("onMoveLeftCustomByOne")
+  if (debugMode) console.log("onMoveLeftCustomByOne")
   moveSelectedElementsByCustomColum("left", context)
 }
 
 export function moveSelectedElementsByCustomColum(myDirection, context) {
-  console.log("moveSelectedElementsByCustomColum")
+  if (debugMode) console.log("moveSelectedElementsByCustomColum")
   var selection = context.selection
   var selectedCount = selection.length
   var myGridFolder = findGridFolder(context)
@@ -413,7 +413,7 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
     var myMessageStatus = "okay"
 
     for (var j = 0; j < selectedCount; j++) {
-      console.log("KONKI " + j)
+      if (debugMode) console.log("KONKI " + j)
       var myFindNearestColumn = findNearestColumnXPosition(selection[j], myGridFolder, mySortedGrid_array)
       myTemp_x = myFindNearestColumn[0]
       myTemp_column = myFindNearestColumn[1]
@@ -462,7 +462,7 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
 //TOGGLE VISIBILITY OF ALL BOOTSTRAP GRIDS ON THAT PAGE - START
 /*-----------------------------------------------------------*/
 export function onToggleVisibilityOfBootstrapGrids(context) {
-  console.log("onToggleVisibilityOfBootstrapGrids")
+  if (debugMode) console.log("onToggleVisibilityOfBootstrapGrids")
   var subSetOfLayers_array = document.getLayersNamed(gridGroupName)
 
   if (subSetOfLayers_array.length) {
@@ -501,7 +501,7 @@ function openUrl(url) {
 }
 
 export function onInitialize(context) {
-  console.log("onInitialize")
+  if (debugMode) console.log("onInitialize")
   var selection = context.selection
   var selectedCount = selection.length
   if (selectedCount == 0) {
@@ -520,7 +520,7 @@ export function onInitialize(context) {
 }
 
 export function getColumnWidth(mySelectionCount) {
-  console.log("getColumnWidth")
+  if (debugMode) console.log("getColumnWidth")
   var temp
   if (bootstrapSize == "xs") {
       temp = gridTotalWidth - (2 * 15)
@@ -536,7 +536,7 @@ export function getColumnWidth(mySelectionCount) {
 
 //FOR MODIFICATION OF SELECTED ELEMENTS
 export function analyzeGrid(myGridFolder) {
-  console.log("analyzeGrid")
+  if (debugMode) console.log("analyzeGrid")
   var myGrid_array = new Array()
   //Put Grid Data (x and width) in two dimensional array
   for (var i=0; i<myGridFolder.layers().length; i++) {
@@ -556,9 +556,9 @@ export function analyzeGrid(myGridFolder) {
 }
 
 export function findGridFolder(context) {
-  console.log("findGridFolder")
+  if (debugMode) console.log("findGridFolder")
   if (onInitialize(context)) {
-    console.log("findGridFolder")
+    if (debugMode) console.log("findGridFolder")
     var selection = context.selection
     var parent = selection[0].parentGroup()
 
@@ -581,7 +581,7 @@ export function findGridFolder(context) {
 }
 
 export function resizeAllParentFoldersToFit(context) {
-  console.log("resizeAllParentFoldersToFit")
+  if (debugMode) console.log("resizeAllParentFoldersToFit")
   if (onInitialize(context)) {
     var selection = context.selection
     var parent = selection[0].parentGroup()
