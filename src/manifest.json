@@ -25,7 +25,7 @@
           "run" : "onDrawBootstrapGridWithOuterGutter"
       },
       "description" : "Draws a bootstrap grid of 12 columns (with 15px outer gutter).",
-      "icon" : "icons/addLink.png"
+      "icon" : "icons/withOuterGutter.png"
     },
     {
         "name" : "Draw Bootstrap Grid (without outer gutter)",
@@ -35,7 +35,8 @@
         "handlers" : {
             "run" : "onDrawBootstrapGridWithoutOuterGutter"
         },
-        "description" : "Draws a bootstrap grid of 12 columns (without any gutter)."
+        "description" : "Draws a bootstrap grid of 12 columns (without any gutter).",
+        "icon" : "icons/withoutOuterGutter.png"
     },
     {
         "name" : "Toggle Visibility of Bootstrap Grid(s)",
@@ -45,7 +46,8 @@
         "handlers" : {
             "run" : "onToggleVisibilityOfBootstrapGrids"
         },
-        "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'CU$T0M-GR1D')"
+        "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'CU$T0M-GR1D')",
+        "icon" : "icons/toggleVisibility.png"
     },
     {
         "name" : "Increase selection by 1 custom column",
@@ -55,7 +57,8 @@
         "handlers" : {
             "run" : "onIncreaseCustomByOne"
         },
-        "description" : "Increases every layer of selection by 1 custom column"
+        "description" : "Increases every layer of selection by 1 custom column",
+        "icon" : "icons/increaseByOne.png"
     },
     {
         "name" : "Decrease selection by 1 custom column",
@@ -65,7 +68,8 @@
         "handlers" : {
             "run" : "onDecreaseCustomByOne"
         },
-        "description" : "Decreases every layer of selection by 1 custom column"
+        "description" : "Decreases every layer of selection by 1 custom column",
+        "icon" : "icons/decreaseByOne.png"
     },
     {
         "name" : "Move selection to the right by 1 custom column width",
@@ -75,7 +79,8 @@
         "handlers" : {
             "run" : "onMoveRightCustomByOne"
         },
-        "description" : "Moves every layer of selection to the right by 1 custom column"
+        "description" : "Moves every layer of selection to the right by 1 custom column",
+        "icon" : "icons/moveRight.png"
     },
     {
         "name" : "Move selection to the left by 1 custom column width",
@@ -85,13 +90,18 @@
         "handlers" : {
             "run" : "onMoveLeftCustomByOne"
         },
-        "description" : "Moves every layer of selection to the left by 1 custom column"
+        "description" : "Moves every layer of selection to the left by 1 custom column",
+        "icon" : "icons/moveLeft.png"
     },
     {
         "name": "Documention",
         "identifier": "linkHelp",
-        "handler": "onDocumentation",
-        "script": "bootstrap_helpers.js"
+        "handlers" : {
+          "run": "onDocumentation"
+        },
+        "script": "bootstrap_helpers.js",
+        "description" : "Documentation about how to use this plugin",
+        "icon" : "icons/documentation.png"
     }
   ],
   "menu": {

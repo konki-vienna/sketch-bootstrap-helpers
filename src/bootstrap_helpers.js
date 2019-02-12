@@ -1,27 +1,25 @@
-const sketch = require('sketch')
-const UI = require('sketch/ui')
-var document = require('sketch/dom').getSelectedDocument()
-
-//@import 'common.js'
 import { displayMessageToUser } from './common';
-var doc = NSDocumentController.sharedDocumentController().currentDocument(); //context.document;
-//var context;
-var bootstrapSize;
-var gridTotalWidth;
-var gridColumnWidth;
-var gridGutter = 15;
-var gridGroupName = "CU$T0M-GR1D";
-var myFillColor = "#FF33CC59"; //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
-var master;
 
-var myDictionary = NSThread.mainThread().threadDictionary();
+const sketch = require('sketch'),
+      UI = require('sketch/ui')
+var document = require('sketch/dom').getSelectedDocument(),
+    doc = NSDocumentController.sharedDocumentController().currentDocument(),
+    bootstrapSize,
+    gridTotalWidth,
+    gridColumnWidth,
+    gridGutter = 15,
+    gridGroupName = "CU$T0M-GR1D",
+    myFillColor = "#FF33CC59", //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
+    master,
+    myDictionary = NSThread.mainThread().threadDictionary(),
+    debugMode = false
 
 /*----------------------------------*/
 //DRAWS A BOOTSTRAP GRID - START
 /*----------------------------------*/
 export function onDrawBootstrapGridWithOuterGutter () {
 //function onDrawBootstrapGridWithOuterGutter(context) {
-  console.log("onDrawBootstrapGridWithOuterGutter")
+  if (debugMode) console.log("onDrawBootstrapGridWithOuterGutter")
   drawBootstrapGrid(context, true)
 }
 
@@ -466,34 +464,8 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
 export function onToggleVisibilityOfBootstrapGrids(context) {
   console.log("onToggleVisibilityOfBootstrapGrids")
   var subSetOfLayers_array = document.getLayersNamed(gridGroupName)
-  
-  /*var subSetOfLayers_array = new Array()
-  var selectLayersOfType_inContainer = function (layerType, containerLayer) {
-
-      // Filter layers using NSPredicate
-      var scope = (typeof containerLayer !== 'undefined') ? [containerLayer children] : [[doc currentPage] children],
-          predicate = NSPredicate.predicateWithFormat("(className == %@)", layerType),
-          layers = [scope filteredArrayUsingPredicate: predicate];
-
-      // Deselect current selection
-      //[[doc currentPage] deselectAllLayers]
-
-      // Loop through filtered layers and select them
-      var loop = [layers objectEnumerator]
-      while (layer = [loop nextObject]) {
-          if (layer.name() == gridGroupName) {
-              subSetOfLayers_array.push(layer)
-              [layer select: true byExpandingSelection: true]
-          }
-      }
-      //log([layers count] + " " + layerType + "s found of which " + subSetOfLayers_array.length + " match");
-  }
-
-  // Select all MSLayerGroup in current page
-  selectLayersOfType_inContainer("MSLayerGroup")*/
 
   if (subSetOfLayers_array.length) {
-    //TODO: refactor into for each...
     if (myDictionary["bootstrapGridsAreVisible"] == true) {
       subSetOfLayers_array.forEach(layer => {
         layer.hidden = true
