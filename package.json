@@ -8,7 +8,7 @@
     "name": "sketch-bootstrap-helpers",
     "manifest": "src/manifest.json",
     "main": "sketch-bootstrap-helpers.sketchplugin",
-    "appcast": "appcast.xml"
+    "appcast": "appcast.xml",
     "assets": [
       "assets/**/*"
     ]
