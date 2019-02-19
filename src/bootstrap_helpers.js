@@ -146,7 +146,7 @@ export function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMa
   }
 
   groupLayer.setConstrainProportions(0); //constrainProportions = off
-  //groupLayer.resizeToFitChildrenWithOption(1) //TODO:
+  groupLayer.fixGeometryWithOptions(1)
 }
 
 export function drawRect(myFillColor, myName, myObj, myCornerRadius) {
@@ -610,12 +610,14 @@ export function resizeAllParentFoldersToFit(context) {
     var parent = selection[0].parentGroup()
     //log(parent.frame().width())
     //parent.resizeToFitChildrenWithOption(1) //TODO:
+    parent.fixGeometryWithOptions(1)
     //log(parent.name())
     do {
        parent = parent.parentGroup()
 
        //log(parent.frame().width())
        //parent.resizeToFitChildrenWithOption(1) //TODO:
+      parent.fixGeometryWithOptions(1)
        //log(parent.frame().width())
     } while (parent.class() != "MSPage")
   }
