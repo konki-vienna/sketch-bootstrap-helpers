@@ -20,87 +20,87 @@
       "identifier" : "drawGridWithGutter",
       "shortcut" : "ctrl shift cmd 0",
       "script" : "bootstrap_helpers.js",
+      "icon" : "Runner.withOuterGutter.png",
       "handlers" : {
           "run" : "onDrawBootstrapGridWithOuterGutter"
       },
-      "description" : "Draws a bootstrap grid of 12 columns (with 15px outer gutter).",
-      "icon" : "icons/withOuterGutter.png"
+      "description" : "Draws a bootstrap grid of 12 columns (with 15px outer gutter)."
     },
     {
         "name" : "Draw Bootstrap Grid (without outer gutter)",
         "identifier" : "drawGridWithoutGutter",
         "shortcut" : "ctrl shift 0",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.withoutOuterGutter.png",
         "handlers" : {
             "run" : "onDrawBootstrapGridWithoutOuterGutter"
         },
-        "description" : "Draws a bootstrap grid of 12 columns (without any gutter).",
-        "icon" : "icons/withoutOuterGutter.png"
+        "description" : "Draws a bootstrap grid of 12 columns (without any gutter)."
     },
     {
         "name" : "Toggle Visibility of Bootstrap Grid(s)",
         "identifier" : "toggleVisibility",
         "shortcut" : "cmd shift 1",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.toggleVisibility.png",
         "handlers" : {
             "run" : "onToggleVisibilityOfBootstrapGrids"
         },
-        "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'CU$T0M-GR1D')",
-        "icon" : "icons/toggleVisibility.png"
+        "description" : "Shows/Hides any Bootstrap Grid folder (folder name 'CU$T0M-GR1D')"
     },
     {
         "name" : "Increase selection by 1 custom column",
         "identifier" : "increaseCustomByOne",
         "shortcut" : "ctrl shift +",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.increaseByOne.png",
         "handlers" : {
             "run" : "onIncreaseCustomByOne"
         },
-        "description" : "Increases every layer of selection by 1 custom column",
-        "icon" : "icons/increaseByOne.png"
+        "description" : "Increases every layer of selection by 1 custom column"
     },
     {
         "name" : "Decrease selection by 1 custom column",
         "identifier" : "decreaseCustomByOne",
         "shortcut" : "ctrl shift -",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.decreaseByOne.png",
         "handlers" : {
             "run" : "onDecreaseCustomByOne"
         },
-        "description" : "Decreases every layer of selection by 1 custom column",
-        "icon" : "icons/decreaseByOne.png"
+        "description" : "Decreases every layer of selection by 1 custom column"
     },
     {
         "name" : "Move selection to the right by 1 custom column width",
         "identifier" : "moveRightCustomByOne",
         "shortcut" : "ctrl shift →",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.moveRight.png",
         "handlers" : {
             "run" : "onMoveRightCustomByOne"
         },
-        "description" : "Moves every layer of selection to the right by 1 custom column",
-        "icon" : "icons/moveRight.png"
+        "description" : "Moves every layer of selection to the right by 1 custom column"
     },
     {
         "name" : "Move selection to the left by 1 custom column width",
         "identifier" : "moveLeftCustomByOne",
         "shortcut" : "ctrl shift ←",
         "script" : "bootstrap_helpers.js",
+        "icon" : "Runner.moveLeft.png",
         "handlers" : {
             "run" : "onMoveLeftCustomByOne"
         },
-        "description" : "Moves every layer of selection to the left by 1 custom column",
-        "icon" : "icons/moveLeft.png"
+        "description" : "Moves every layer of selection to the left by 1 custom column"
     },
     {
         "name": "Documention",
         "identifier": "linkHelp",
+        "icon" : "Runner.documentation.png",
         "handlers" : {
           "run": "onDocumentation"
         },
         "script": "bootstrap_helpers.js",
-        "description" : "Documentation about how to use this plugin",
-        "icon" : "icons/documentation.png"
+        "description" : "Documentation about how to use this plugin"
     }
   ],
   "menu": {
