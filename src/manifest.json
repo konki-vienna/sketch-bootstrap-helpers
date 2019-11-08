@@ -16,6 +16,15 @@
       "script": "./my-command.js"
     },
     {
+      "name" : "Grid Settings...",
+      "identifier" : "gridSettings",
+      "script" : "gridSettings.js",
+      "handlers" : {
+          "run" : "onGridSettings"
+      },
+      "description" : "Opens a settings dialog."
+    },
+    {
       "name" : "Draw Bootstrap Grid (with outer gutter)",
       "identifier" : "drawGridWithGutter",
       "shortcut" : "ctrl shift cmd 0",
@@ -114,6 +123,8 @@
       "decreaseCustomByOne",
       "moveRightCustomByOne",
       "moveLeftCustomByOne",
+      "-",
+      "gridSettings",
       "-",
       {
         "title": "Help",
