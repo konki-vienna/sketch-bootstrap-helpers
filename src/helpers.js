@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2019 *
+ * A collection of helper functions
+ * @author Konstantin Demblin <konstantin.demblin@gmail.com> *
+ */
+
+ export let debugMode = false
+
 const sketch = require('sketch')
 
 export function ShowMessage(type, myMessage, autoClose) {
