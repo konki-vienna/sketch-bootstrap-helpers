@@ -32,6 +32,7 @@
   "license": "MIT",
   "author": "Konstantin Demblin <konstantin.demblin@beeone.at>",
   "dependencies": {
+    "@skpm/extract-loader": "2.0.2",
     "css-loader": "3.2.0",
     "html-loader": "0.5.5",
     "sketch-module-google-analytics": "0.2.1",
