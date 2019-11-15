@@ -16,9 +16,24 @@
 
  let browserWindow_gridSettings
 
-export function onGridSettings() {
-    ShowMessage("success", "onGridSettings");
+const options = {
+    identifier: 'data.gridSettings',
+    width: 640,
+    height: 840,
+    x: 30,
+    y: 200,
+    minWidth: 320,
+    minHeight: 576,
+    resizable: false,
+    alwaysOnTop: true,
+    //backgroundColor: "#FF0000",
+    //frame: false, // Specify false to create a Frameless Window
+    show: false
+}
 
+
+
+export function onGridSettings() {
     browserWindow_gridSettings = new BrowserWindow(options)
 
     // only show the window when the page has loaded
@@ -47,19 +62,4 @@ export function onGridSettings() {
     })
 
     browserWindow_gridSettings.loadURL(require('../resources/webview_gridSettings.html'))
-}
-
-const options = {
-    identifier: 'data.amounts',
-    width: 640,
-    height: 840,
-    x: 30,
-    y: 200,
-    minWidth: 320,
-    minHeight: 576,
-    resizable: false,
-    alwaysOnTop: true,
-    //backgroundColor: "#FF0000",
-    //frame: false, // Specify false to create a Frameless Window
-    show: false
 }

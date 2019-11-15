@@ -4,7 +4,7 @@
  * @author Konstantin Demblin <konstantin.demblin@gmail.com> *
  */
 
- export let debugMode = false
+ export let debugMode = true
 
 const sketch = require('sketch')
 
