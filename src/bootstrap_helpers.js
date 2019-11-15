@@ -1,4 +1,5 @@
-import { displayMessageToUser } from './helpers';
+
+import { ShowMessage } from './helpers';
 import myGoogleAnalytics from 'sketch-module-google-analytics';
 myGoogleAnalytics.kUUIDKey = "UA-134337717-1"
 
@@ -44,16 +45,16 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
       if (selection[0].class() == "MSArtboardGroup") {
           myHasOuterGutter = true //in case an Artboard is selected, there shall always be a gutter
           if (myHasOuterGutter) {
-              setGridSettings(master, 1)
+            setGridSettings(master, 1)
           } else {
-              setGridSettings(master, 2)
+            setGridSettings(master, 2)
           }
 
           if (bootstrapSize == "xs") {
-              displayMessageToUser(context, "❌ Drawing a grid for this (and smaller) artboard sizes is not supported ❌")
-              return;
+            ShowMessage("error", "Drawing a grid for this (and smaller) artboard sizes is not supported.");
+            return;
           } else {
-              drawGrid(master, true, myHasOuterGutter)
+            drawGrid(master, true, myHasOuterGutter)
           }
       } else {
           if (myHasOuterGutter) {
@@ -63,14 +64,14 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
           gridTotalWidth = master.width;
           gridColumnWidth = (gridTotalWidth - (11 * (gridGutter * 2))) / 12
           if (gridColumnWidth <= 1) {
-            displayMessageToUser(context, "❌ Grid to small to make sense ❌")
+            ShowMessage("error", "Grid to small to make sense.");
             return
           } else {
               drawGrid(master, false, myHasOuterGutter)
           }
 
       }
-      displayMessageToUser(context, "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter)
+      ShowMessage("info", "GridWidth: " + gridTotalWidth + "px, ColumnWidth: " + gridColumnWidth + "px, gutterWidth: " + gridGutter + "px, hasOuterGutter: " + myHasOuterGutter);
       
       if (!debugMode) {
         if (myHasOuterGutter) {
@@ -80,7 +81,7 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
         }
       }
     } else {
-      displayMessageToUser(context, "❌ Please select a single element. ❌")
+      ShowMessage("error", "Please select a single element.");
     }
 }
 
@@ -240,7 +241,7 @@ export function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
   var myGridFolder = findGridFolder(context)
   if (debugMode) console.log(myGridFolder)
   if (myGridFolder == false) {
-    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌")
+    ShowMessage("error", "There is no folder named '" + gridGroupName + "' as an ancestor of this selection.");
   } else {
     var myMessageStatus = "okay"
     var mySortedGrid_array = analyzeGrid(myGridFolder)
@@ -287,11 +288,11 @@ export function changeWidthOfSelectedElementByCustomColumn(myValue, context) {
       resizeAllParentFoldersToFit(context)
     }
     if (myMessageStatus == "okay") {
-      displayMessageToUser(context, "✅ Object(s) " + myValue + "d by single column. ✅")
+      ShowMessage("success", "Object(s) " + myValue + "d by single column.");
     } else if (myMessageStatus == "tooSmall") {
-      displayMessageToUser(context, "❌ Your selection cannot get any smaller. ❌")
+      ShowMessage("error", "Your selection cannot get any smaller.");
     } else if (myMessageStatus == "tooWide") {
-      displayMessageToUser(context, "❌ Your selection cannot get any wider. ❌")
+      ShowMessage("error", "Your selection cannot get any wider.");
     }
   }
 }
@@ -422,7 +423,7 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
   var selectedCount = selection.length
   var myGridFolder = findGridFolder(context)
   if (myGridFolder == false) {
-    displayMessageToUser(context, "❌ There is no folder named '" + gridGroupName + "' as an ancestor of this selection. ❌")
+    ShowMessage("error", "There is no folder named '" + gridGroupName + "' as an ancestor of this selection.");
   } else {
     var mySortedGrid_array = analyzeGrid(myGridFolder)
     var myTemp_x
@@ -464,11 +465,11 @@ export function moveSelectedElementsByCustomColum(myDirection, context) {
       resizeAllParentFoldersToFit(context)
     }
     if (myMessageStatus == "okay") {
-      displayMessageToUser(context, "✅ Object(s) moved to the " + myDirection + " by single column. ✅")
+      ShowMessage("success", "Object(s) moved to the " + myDirection + " by single column.");
     } else if (myMessageStatus == "tooFarLeft") {
-      displayMessageToUser(context, "❌ You cannot move your selection any further to the left. ❌")
+      ShowMessage("error", "You cannot move your selection any further to the left.");
     } else if (myMessageStatus == "tooFarRight") {
-      displayMessageToUser(context, "❌ You cannot move your selection any further to the right. ❌")
+      ShowMessage("error", "You cannot move your selection any further to the right.");
     }
   }
 }
@@ -528,14 +529,14 @@ export function onInitialize(context) {
   var selection = context.selection
   var selectedCount = selection.length
   if (selectedCount == 0) {
-    displayMessageToUser(context, "❌ Please select one or more elements ❌")
+    ShowMessage("error", "Please select one or more elements");
     return false
   } else {
     //LOOK IF SOMETHING IS AN ARTBOARD OR AN B00T$TRAP-Grid
     for (var i = 0; i < selectedCount; i++) {
       if (selection[i].class() == "MSArtboardGroup" || selection[i].name() == gridGroupName) {
-          displayMessageToUser(context, "❌ Please do not select an artboard or a folder named B00T$TRAP-Grid. ❌")
-          return false
+        ShowMessage("error", "Please do not select an artboard or a folder named B00T$TRAP-Grid.");
+        return false
       }
     }
     return true

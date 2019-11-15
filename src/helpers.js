@@ -1,10 +1,5 @@
 const sketch = require('sketch')
 
-// Display single line user feedback text at the bottom of sketch window
-export function displayMessageToUser(context, message_str) {
-    sketch.UI.message(message_str)
-}
-
 export function ShowMessage(type, myMessage, autoClose) {
   var myEmoji = ""
   
