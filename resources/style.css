@@ -1,0 +1,217 @@
+/* some default styles to make the view more native like */
+/* Roboto regular */
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/Roboto-Regular.ttf") format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+/* Roboto bold */
+@font-face {
+  font-family: "Roboto";
+  src: url('./fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+html {
+  box-sizing: border-box;
+  background: transparent;
+  color: #445C75;
+
+  /* Prevent the page to be scrollable */
+  overflow: hidden;
+
+  /* Force the default cursor, even on text */
+  cursor: default;
+
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: normal;
+  padding: 10px
+}
+
+h1 { 
+  display: block;
+
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 28px;
+
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;  
+  border: 1px red;
+}
+
+table {
+  width: 600px;
+}
+th,td {
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+
+.label_td {
+  width: 250px;
+  display: inline-block;
+}
+
+label {
+  font-size: 16px;
+}
+
+fieldset
+{
+  padding:8px;
+  border: 1px solid #ccd7e1;
+  border-radius: .25rem;
+}
+.legend1
+{
+  margin-bottom:0px;
+  margin-left:16px;
+}
+
+
+.radio_button {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.radio_button:before {
+  color: #FF33cc;
+}
+
+button {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  height: 2rem;
+  padding: 0.375rem 0.625rem 0.5rem 0.625rem;
+  border: 1px solid #ccd7e1;
+  border-radius: .25rem;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(255, 255, 255);
+  color: #60768f;
+  font-family: inherit;
+  font-size: .75em;
+  line-height: 1.5;
+  text-decoration-line: none;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+button:before {
+  transition-property: opacity;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  background-image: linear-gradient(transparent, rgb(0, 0, 0));
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: "";
+  opacity: 0.1;
+  box-sizing: inherit;
+}
+
+button:hover {
+  border:1px solid #2075ff;
+  background: white;
+  color: #2075ff;
+}
+
+button:active {
+  border:1px solid #204CFF;
+  background: #204CFF;
+  color: white;
+}
+
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  font-family: inherit;
+  font-size: 1.0rem;
+  width: 100%;
+  cursor: pointer;
+  padding: .375rem .625rem .5rem;
+  height: 2.0rem;
+  border: 1px solid #CCD7E1;
+  border-radius: .25rem;
+  color: #60768F;
+  -webkit-appearance: none;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.select select:before {
+  transition: opacity .1s ease-in-out;
+  transition-property: opacity;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+  background-image: linear-gradient(transparent, rgb(0, 0, 0));
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  opacity: .1;
+}
+
+.select_arrow {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 0px;
+  height: 0px;
+  border: solid #60768F;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+.select select:hover ~ .select_arrow,
+.select select:focus ~ .select_arrow {
+  border-color: #7e5bef;
+  color: #7e5bef;
+}
+.select select:disabled ~ .select_arrow {
+  border-top-color: #cccccc;
+}
+
+
+
+input, textarea {
+  -webkit-user-select: auto;
+  user-select: auto;
+}
