@@ -23,7 +23,7 @@
     "postinstall": "npm run build && skpm-link"
   },
   "devDependencies": {
-    "@skpm/builder": "0.5.14"
+    "@skpm/builder": "0.7.11"
   },
   "repository": {
     "type": "git",
@@ -32,6 +32,6 @@
   "license": "MIT",
   "author": "Konstantin Demblin <konstantin.demblin@beeone.at>",
   "dependencies": {
-    "sketch-module-google-analytics": "0.1.4"
+    "sketch-module-google-analytics": "0.2.2"
   }
 }

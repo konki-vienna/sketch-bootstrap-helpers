@@ -178,7 +178,6 @@ export function drawRect(myFillColor, myName, myObj, myCornerRadius) {
 
     return rectShape
   }
-  return
 }
 
 export function setGridSettings(myReference_obj, mySelectionCount) {
@@ -639,11 +638,12 @@ function googleAnalytics(context,category,action,label,value) {
 		NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
 	}
 
+  
 	var url = "https://www.google-analytics.com/collect?v=1";
 	// Tracking ID
 	url += "&tid=" + trackingID;
 	// Source
-	url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
+	url += "&ds=sketch" + BCSketchInfo.shared().metadata().appVersion;
 	// Client ID
 	url += "&cid=" + uuid;
 	// pageview, screenview, event, transaction, item, social, exception, timing
