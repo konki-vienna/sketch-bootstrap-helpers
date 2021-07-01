@@ -23,7 +23,7 @@
     "postinstall": "npm run build && skpm-link"
   },
   "devDependencies": {
-    "@skpm/builder": "0.5.14"
+    "@skpm/builder": "0.7.11"
   },
   "repository": {
     "type": "git",
