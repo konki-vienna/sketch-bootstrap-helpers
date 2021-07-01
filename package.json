@@ -32,6 +32,6 @@
   "license": "MIT",
   "author": "Konstantin Demblin <konstantin.demblin@beeone.at>",
   "dependencies": {
-    "sketch-module-google-analytics": "0.1.4"
+    "sketch-module-google-analytics": "0.2.2"
   }
 }

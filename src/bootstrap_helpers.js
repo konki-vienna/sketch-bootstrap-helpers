@@ -14,7 +14,7 @@ var document = require('sketch/dom').getSelectedDocument(),
     myFillColor = "#FF33CC59", //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
     master,
     myDictionary = NSThread.mainThread().threadDictionary(),
-    debugMode = false
+    debugMode = true
 
 
 /*----------------------------------*/
@@ -178,7 +178,6 @@ export function drawRect(myFillColor, myName, myObj, myCornerRadius) {
 
     return rectShape
   }
-  return
 }
 
 export function setGridSettings(myReference_obj, mySelectionCount) {
@@ -639,11 +638,12 @@ function googleAnalytics(context,category,action,label,value) {
 		NSUserDefaults.standardUserDefaults().setObject_forKey(uuid,uuidKey);
 	}
 
+  
 	var url = "https://www.google-analytics.com/collect?v=1";
 	// Tracking ID
 	url += "&tid=" + trackingID;
 	// Source
-	url += "&ds=sketch" + MSApplicationMetadata.metadata().appVersion;
+	url += "&ds=sketch" + BCSketchInfo.shared().metadata().appVersion;
 	// Client ID
 	url += "&cid=" + uuid;
 	// pageview, screenview, event, transaction, item, social, exception, timing
