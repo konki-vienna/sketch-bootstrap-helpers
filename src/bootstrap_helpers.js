@@ -39,7 +39,7 @@ export function drawBootstrapGrid (context, myHasOuterGutter) {
   var selectedCount = selection.length
 
     if (selectedCount == 1) {
-      log("selection count: " + selectedCount)
+      if (debugMode) console.log("selection count: " + selectedCount)
       master = setMaster(selection[0])
       if (selection[0].class() == "MSArtboardGroup") {
           myHasOuterGutter = true //in case an Artboard is selected, there shall always be a gutter
