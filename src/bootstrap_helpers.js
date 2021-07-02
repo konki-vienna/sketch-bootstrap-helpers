@@ -366,7 +366,7 @@ export function getPositionRelativeToArtboard(myValue, myLayer) {
 export function getElementsArtboard(myLayer) {
   if (debugMode) console.log("getElementsArtboard")
   var myArtboard = myLayer
-  log(myLayer.name())
+  //log(myLayer.name())
   do {
      myArtboard = myArtboard.parentGroup()
   } while (myArtboard.class() != "MSArtboardGroup")
