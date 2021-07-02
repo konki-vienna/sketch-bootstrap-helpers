@@ -14,7 +14,7 @@ var document = require('sketch/dom').getSelectedDocument(),
     myFillColor = "#FF33CC59", //100% — FF, 95% — F2, 90% — E6, 85% — D9, 80% — CC, 75% — BF, 70% — B3, 65% — A6, 60% — 99, 55% — 8C, 50% — 80, 45% — 73, 40% — 66, 35% — 59, 30% — 4D, 25% — 40, 20% — 33, 15% — 26, 10% — 1A, 5% — 0D, 0% — 00
     master,
     myDictionary = NSThread.mainThread().threadDictionary(),
-    debugMode = false
+    debugMode = false;
 
 
 /*----------------------------------*/
@@ -145,7 +145,7 @@ export function groupLayers(myLayer_array, myGroupName, myMasterIsArtboard, myMa
       groupLayer.addLayers([temp])
   }
 
-  groupLayer.setConstrainProportions(0); //constrainProportions = off
+  groupLayer.setShouldConstrainProportions(false); //constrainProportions = off
   groupLayer.fixGeometryWithOptions(1)
 }
 
